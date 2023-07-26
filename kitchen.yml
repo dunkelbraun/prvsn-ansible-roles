@@ -52,5 +52,16 @@ platforms:
       controls:
         - "Docker"
 
+  - name: prvsn-node-exporter
+    driver:
+      <<: *vagrant_driver
+    provisioner:
+      <<: *ansible_provisioner
+      playbook : "./test/prvsn_node_exporter.yml"
+    verifier:
+      name: inspec
+      controls:
+        - "Node Exporter"
+
 suites:
   - name: default
