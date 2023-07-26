@@ -1,4 +1,4 @@
-# Ansible Role: prvsn_internal_network_firewall
+# Ansible Role: prvsn_nat_gateway
 
 This role configures a Hetzner Cloud server to act as a NAT gateway.
 
