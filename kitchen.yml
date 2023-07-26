@@ -74,5 +74,16 @@ platforms:
       controls:
         - "Promtail"
 
+  - name: prvsn-loki
+    driver:
+      <<: *vagrant_driver
+    provisioner:
+      <<: *ansible_provisioner
+      playbook : "./test/prvsn_loki.yml"
+    verifier:
+      name: inspec
+      controls:
+        - "Loki"
+
 suites:
   - name: default

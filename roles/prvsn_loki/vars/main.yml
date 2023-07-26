@@ -1,0 +1,11 @@
+---
+
+_arch_map:
+  x86_64: "amd64"
+  aarch64: "arm64"
+
+_arch: "{{ _arch_map[ansible_architecture] }}"
+
+_prvsn_loki_version: "2.8.2"
+_prvsn_loki_base_url: "https://github.com/grafana/loki/releases/download"
+_prvsn_loki_download_url: "{{ _prvsn_loki_base_url }}/v{{ _prvsn_loki_version }}/loki_{{ _prvsn_loki_version }}_{{ _arch }}.deb"
