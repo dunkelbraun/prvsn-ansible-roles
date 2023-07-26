@@ -24,7 +24,10 @@ platforms:
       <<: *vagrant_driver
     provisioner:
       <<: *ansible_provisioner
-      playbook : "./test/prvsn_internal_network_firewall.yml"
+      extra_vars:
+        roles_to_include:
+          - prvsn_internal_network_firewall
+      playbook : "./test/test.yml"
     verifier:
       name: inspec
       controls:
@@ -35,7 +38,10 @@ platforms:
       <<: *vagrant_driver
     provisioner:
       <<: *ansible_provisioner
-      playbook : "./test/prvsn_nat_gateway.yml"
+      extra_vars:
+        roles_to_include:
+          - prvsn_nat_gateway
+      playbook : "./test/test.yml"
     verifier:
       name: inspec
       controls:
@@ -46,7 +52,10 @@ platforms:
       <<: *vagrant_driver
     provisioner:
       <<: *ansible_provisioner
-      playbook : "./test/prvsn_docker.yml"
+      extra_vars:
+        roles_to_include:
+          - prvsn_docker
+      playbook : "./test/test.yml"
     verifier:
       name: inspec
       controls:
@@ -57,7 +66,11 @@ platforms:
       <<: *vagrant_driver
     provisioner:
       <<: *ansible_provisioner
-      playbook : "./test/prvsn_node_exporter.yml"
+      extra_vars:
+        roles_to_include:
+          - prvsn_internal_network_firewall
+          - prvsn_node_exporter
+      playbook : "./test/test.yml"
     verifier:
       name: inspec
       controls:
@@ -68,7 +81,12 @@ platforms:
       <<: *vagrant_driver
     provisioner:
       <<: *ansible_provisioner
-      playbook : "./test/prvsn_promtail.yml"
+      extra_vars:
+        roles_to_include:
+          - prvsn_docker
+          - prvsn_promtail
+        prvsn_promtail_loki_server: localhost
+      playbook : "./test/test.yml"
     verifier:
       name: inspec
       controls:
@@ -79,7 +97,11 @@ platforms:
       <<: *vagrant_driver
     provisioner:
       <<: *ansible_provisioner
-      playbook : "./test/prvsn_loki.yml"
+      extra_vars:
+        roles_to_include:
+          - prvsn_internal_network_firewall
+          - prvsn_loki
+      playbook : "./test/test.yml"
     verifier:
       name: inspec
       controls:

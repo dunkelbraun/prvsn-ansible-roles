@@ -1,8 +1,0 @@
----
-
-- name: Loki
-  hosts: all
-  become: true
-  roles:
-    - prvsn_internal_network_firewall
-    - prvsn_loki

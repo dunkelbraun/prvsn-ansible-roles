@@ -1,7 +1,0 @@
----
-
-- name: Internal Network Firewall
-  hosts: all
-  become: true
-  roles:
-    - prvsn_internal_network_firewall

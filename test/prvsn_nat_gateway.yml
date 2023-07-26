@@ -1,7 +1,0 @@
----
-
-- name: Firewalld
-  hosts: all
-  become: true
-  roles:
-    - prvsn_nat_gateway

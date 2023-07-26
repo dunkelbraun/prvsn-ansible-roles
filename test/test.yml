@@ -1,0 +1,11 @@
+---
+
+- name: Include Roles
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: "{{ item }}"
+      loop: "{{ roles_to_include }}"
