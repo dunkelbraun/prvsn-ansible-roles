@@ -30,5 +30,16 @@ platforms:
       controls:
         - "Internal Network Firewall"
 
+  - name: prvsn-private-nat-gateway
+    driver:
+      <<: *vagrant_driver
+    provisioner:
+      <<: *ansible_provisioner
+      playbook : "./test/prvsn_nat_gateway.yml"
+    verifier:
+      name: inspec
+      controls:
+        - "NAT Gateway"
+
 suites:
   - name: default

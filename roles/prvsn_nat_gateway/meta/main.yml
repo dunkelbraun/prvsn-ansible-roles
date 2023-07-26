@@ -1,0 +1,18 @@
+galaxy_info:
+  role_name: prvsn_nat_gateway
+  author: Marcos Essindi
+  description: Configures a Hetzner Cloud server to act as a NAT gateway.
+  issue_tracker_url: https://github.com/dunkelbraun/prvsn-ansible-roles
+
+  license: MIT
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+
+  galaxy_tags: []
+
+dependencies: []
