@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2023-07-26
+
+### Added
+
+- prvsn_node_exporter role.
+- prvsn_promtail role.
+
 ## [0.1.0] - 2023-07-26
 
 ### Added
@@ -16,3 +23,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - prvsn_nat_gateway role.
 
 [0.1.0]: https://github.com/dunkelbraun/prvsn-ansible-roles/releases/tag/v0.1.0
+[0.11.0]: https://github.com/dunkelbraun/prvsn-ansible-roles/releases/tag/v0.11.0
