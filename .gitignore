@@ -1,0 +1,10 @@
+# Ignore kitchen files
+.kitchen
+.kitchen.local.yml
+
+# Ignore VSCode files
+.vscode
+
+# Ignore Vagrant files
+.vagrant
+
