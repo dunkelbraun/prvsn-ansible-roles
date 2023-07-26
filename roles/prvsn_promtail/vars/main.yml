@@ -1,0 +1,10 @@
+_arch_map:
+  x86_64: "amd64"
+  aarch64: "arm64"
+
+_arch: "{{ _arch_map[ansible_architecture] }}"
+
+_promtail_url: https://github.com/grafana/loki/releases/download/
+_promtail_version: "2.8.2"
+
+prvsn_promtail_download_url: "{{ _promtail_url }}/v{{ _promtail_version }}/promtail_{{ _promtail_version }}_{{ _arch }}.deb"

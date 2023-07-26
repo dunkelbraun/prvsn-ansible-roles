@@ -63,5 +63,16 @@ platforms:
       controls:
         - "Node Exporter"
 
+  - name: prvsn-promtail
+    driver:
+      <<: *vagrant_driver
+    provisioner:
+      <<: *ansible_provisioner
+      playbook : "./test/prvsn_promtail.yml"
+    verifier:
+      name: inspec
+      controls:
+        - "Promtail"
+
 suites:
   - name: default

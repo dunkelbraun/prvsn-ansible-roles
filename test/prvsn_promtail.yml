@@ -1,0 +1,9 @@
+---
+
+- name: Promtail
+  hosts: all
+  become: true
+  roles:
+    - role: prvsn_docker
+    - role: prvsn_promtail
+      prvsn_promtail_loki_server: localhost
