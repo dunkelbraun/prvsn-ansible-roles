@@ -107,5 +107,20 @@ platforms:
       controls:
         - "Loki"
 
+  - name: prvsn-grafana-oss
+    driver:
+      <<: *vagrant_driver
+    provisioner:
+      <<: *ansible_provisioner
+      extra_vars:
+        roles_to_include:
+          - prvsn_internal_network_firewall
+          - prvsn_grafana_oss
+      playbook : "./test/test.yml"
+    verifier:
+      name: inspec
+      controls:
+        - "Grafana OSS"
+
 suites:
   - name: default
