@@ -30,7 +30,7 @@ platforms:
       controls:
         - "Internal Network Firewall"
 
-  - name: prvsn-private-nat-gateway
+  - name: prvsn-nat-gateway
     driver:
       <<: *vagrant_driver
     provisioner:
