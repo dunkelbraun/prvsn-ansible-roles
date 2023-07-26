@@ -1,0 +1,7 @@
+---
+
+- name: Docker
+  hosts: all
+  become: true
+  roles:
+    - prvsn_docker

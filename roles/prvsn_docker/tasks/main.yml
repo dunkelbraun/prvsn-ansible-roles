@@ -1,0 +1,41 @@
+---
+
+- name: Add dependencies
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+
+- name: Ensure /etc/apt/keyrings is present
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Download Docker repo pgp public key
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/trusted.gpg.d/docker.asc
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Configure Apt with docker packages
+  ansible.builtin.apt_repository:
+    repo: |
+      {{ prvsn_docker_docker_repo }}
+    state: present
+
+- name: Install Docker
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    update_cache: true
+    state: present

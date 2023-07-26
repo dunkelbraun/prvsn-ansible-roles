@@ -41,5 +41,16 @@ platforms:
       controls:
         - "NAT Gateway"
 
+  - name: prvsn-docker
+    driver:
+      <<: *vagrant_driver
+    provisioner:
+      <<: *ansible_provisioner
+      playbook : "./test/prvsn_docker.yml"
+    verifier:
+      name: inspec
+      controls:
+        - "Docker"
+
 suites:
   - name: default
