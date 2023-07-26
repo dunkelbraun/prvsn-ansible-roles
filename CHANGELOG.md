@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2023-07-26
+
+### Added
+
+- prvsn_grafana_oss role.
+- prvsn_loki role.
+- prvsn_prometheus role.
+
 ## [0.11.0] - 2023-07-26
 
 ### Added
@@ -24,3 +32,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [0.1.0]: https://github.com/dunkelbraun/prvsn-ansible-roles/releases/tag/v0.1.0
 [0.11.0]: https://github.com/dunkelbraun/prvsn-ansible-roles/releases/tag/v0.11.0
+[0.12.0]: https://github.com/dunkelbraun/prvsn-ansible-roles/releases/tag/v0.12.0
