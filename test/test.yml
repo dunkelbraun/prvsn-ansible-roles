@@ -7,5 +7,7 @@
   tasks:
     - name: Include role
       ansible.builtin.include_role:
-        name: "{{ item }}"
+        name: "{{ role_to_include }}"
       loop: "{{ roles_to_include }}"
+      loop_control:
+        loop_var: role_to_include

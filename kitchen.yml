@@ -122,5 +122,22 @@ platforms:
       controls:
         - "Grafana OSS"
 
+  - name: prvsn-prometheus
+    driver:
+      <<: *vagrant_driver
+    provisioner:
+      <<: *ansible_provisioner
+      extra_vars:
+        roles_to_include:
+          - prvsn_internal_network_firewall
+          - prvsn_prometheus
+        prvsn_prometheus_network_name: "a_network_name"
+        prvsn_prometheus_hcloud_read_token: "abcd"
+      playbook : "./test/test.yml"
+    verifier:
+      name: inspec
+      controls:
+        - "Prometheus"
+
 suites:
   - name: default
