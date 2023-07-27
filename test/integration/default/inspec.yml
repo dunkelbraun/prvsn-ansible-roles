@@ -20,3 +20,24 @@ attributes:
   - name: grafana_server_ip_address
     type: string
     required: true
+  - name: load_balancer
+    type: hash
+    required: true
+  - name: load_balancer_network
+    type: hash
+    required: true
+  - name: load_balancer_target
+    type: hash
+    required: true
+  - name: managed_cerfificate_id
+    type: numeric
+    required: true
+  - name: managed_cerfificate_name
+    type: string
+    required: true
+  - name: managed_cerfificate_domain_names
+    type: array
+    required: true
+  - name: grafana_load_balancer_record
+    type: hash
+    required: true

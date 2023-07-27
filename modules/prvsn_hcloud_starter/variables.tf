@@ -45,3 +45,13 @@ variable "hcloud_read_token" {
   type        = string
 }
 
+variable "load_balancer_type" {
+  description = "Load balancer type"
+  type        = string
+  default     = "lb11"
+}
+
+variable "domain" {
+  description = "Domain to use for the load balancer"
+  type        = string
+}

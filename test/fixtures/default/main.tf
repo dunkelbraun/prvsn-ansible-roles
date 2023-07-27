@@ -5,4 +5,5 @@ module "default" {
   network_cidr             = var.network_cidr
   ssh_key_id               = var.ssh_key_id
   hcloud_read_token        = "abcde"
+  domain                   = "prvsn.dev"
 }

@@ -23,3 +23,35 @@ output "grafana_server" {
 output "grafana_private_ip_address" {
   value = tolist(module.default.grafana_server.network)[0].ip
 }
+
+output "load_balancer" {
+  value = module.default.load_balancer
+}
+
+output "load_balancer_network" {
+  value = module.default.load_balancer_network
+}
+
+output "load_balancer_target" {
+  value = module.default.load_balancer_target
+}
+
+output "managed_cerfificate_domain_names" {
+  value = module.default.managed_cerfificate_domain_names
+}
+
+output "managed_cerfificate_name" {
+  value = module.default.managed_cerfificate_name
+}
+
+output "managed_cerfificate_id" {
+  value = module.default.managed_cerfificate_id
+}
+
+output "grafana_load_balancer_service" {
+  value = module.default.grafana_load_balancer_service
+}
+
+output "grafana_load_balancer_record" {
+  value = module.default.grafana_load_balancer_record
+}
