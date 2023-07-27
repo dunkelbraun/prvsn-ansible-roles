@@ -1,4 +1,5 @@
 hetzner_network_name: us-east-test
 hetzner_network_ip_range: 10.2.0.0/16
 hetzner_network_zone: us-east
-nat_gateway_internal_interface: "enp7s0"
+hetzner_network_name_internal: us_east_test
+loki_server: "10.2.1.2"

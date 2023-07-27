@@ -12,3 +12,8 @@ output "nat_gateway" {
   description = "NAT Gateway server (hcloud_server attributes)"
   value = hcloud_server.nat_gateway
 }
+
+output "grafana_server" {
+  description = "Grafana server (hcloud_server attributes)"
+  value = hcloud_server.grafana
+}

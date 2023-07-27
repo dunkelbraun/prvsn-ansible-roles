@@ -1,3 +1,5 @@
+input("loki_server", value: "localhost")
+
 control "Role Promtail" do
   title ""
 
@@ -8,7 +10,7 @@ control "Role Promtail" do
 
   describe file("/etc/promtail/config.yml") do
     its(:content) do
-      should match(%r{http://localhost:3100/loki/api/v1/push})
+      should match(%r{http://#{input("loki_server")}:3100/loki/api/v1/push})
     end
   end
 

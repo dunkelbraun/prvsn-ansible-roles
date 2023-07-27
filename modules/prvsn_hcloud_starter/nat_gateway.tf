@@ -24,7 +24,8 @@ resource "hcloud_server" "nat_gateway" {
     roles = {
       "1": [ "prvsn_nat_gateway", {} ],
       "2": [ "prvsn_docker", {} ],
-      "3": [ "prvsn_node_exporter", {} ]
+      "3": [ "prvsn_node_exporter", {} ],
+      "4": [ "prvsn_promtail", { "prvsn_promtail_loki_server" = local.grafana_private_ip } ]
     }
   })
 

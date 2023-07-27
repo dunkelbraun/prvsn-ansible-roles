@@ -6,6 +6,8 @@ TerraformVerifier: &terraform_verifier
   controls:
     - "Terraform Network"
     - "Terraform NAT Gateway"
+    - "Terraform Grafana"
+  show_progress: true
 
 NatGatewayVerifier: &nat_gateway_verifier
   name: NAT Gateway
@@ -15,7 +17,25 @@ NatGatewayVerifier: &nat_gateway_verifier
     - "Role NAT Gateway"
     - "Role Docker"
     - "Role Node Exporter"
+    - "Role Promtail"
   hosts_output: nat_gateway_ip_address
+  show_progress: true
+
+GrafanaVerifier: &grafana_verifier
+  name: Grafana Server
+  backend: ssh
+  user: root
+  controls:
+    - "Role Internal Network Firewall"
+    - "Role Docker"
+    - "Role Node Exporter"
+    - "Role Loki"
+    - "Role Promtail"
+    - "Role Grafana OSS"
+    - "Role Prometheus"
+  bastion_host_output: nat_gateway_ip_address
+  hosts_output: grafana_private_ip_address
+  show_progress: true
 
 VagrantDriver: &vagrant_driver
   name: vagrant
@@ -177,6 +197,13 @@ platforms:
           attrs:
             - test/integration/default/terraform_attributes/eu_central.yml
         - <<: *nat_gateway_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/eu_central.yml
+            - test/integration/default/terraform_attributes/all.yml
+        - <<: *grafana_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/eu_central.yml
+            - test/integration/default/terraform_attributes/all.yml
 
   - name: hcloud-starter-us-east
     provisioner:
@@ -199,6 +226,13 @@ platforms:
           attrs:
             - test/integration/default/terraform_attributes/us_east.yml
         - <<: *nat_gateway_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/us_east.yml
+            - test/integration/default/terraform_attributes/all.yml
+        - <<: *grafana_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/us_east.yml
+            - test/integration/default/terraform_attributes/all.yml
 
   - name: hcloud-starter-us-west
     provisioner:
@@ -221,6 +255,13 @@ platforms:
           attrs:
             - test/integration/default/terraform_attributes/us_west.yml
         - <<: *nat_gateway_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/us_west.yml
+            - test/integration/default/terraform_attributes/all.yml
+        - <<: *grafana_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/us_west.yml
+            - test/integration/default/terraform_attributes/all.yml
 
 suites:
   - name: default

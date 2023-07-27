@@ -14,3 +14,9 @@ attributes:
   - name: nat_gateway_ip_address
     type: string
     required: true
+  - name: grafana_server
+    type: hash
+    required: true
+  - name: grafana_server_ip_address
+    type: string
+    required: true

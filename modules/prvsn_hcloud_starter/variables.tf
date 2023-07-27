@@ -34,3 +34,14 @@ variable "nat_gateway_server_type" {
   default     = "cpx11"
 }
 
+variable "grafana_server_type" {
+  description = "Server type for the NAT gateway"
+  type        = string
+  default     = "cpx21"
+}
+
+variable "hcloud_read_token" {
+  description = "Hetzner Cloud API token to use for read-only operations"
+  type        = string
+}
+

@@ -1,3 +1,5 @@
+input("internal_interface", value: "eth1")
+
 control "Role Internal Network Firewall" do
   title ""
 
@@ -8,6 +10,6 @@ control "Role Internal Network Firewall" do
   end
 
   describe(firewalld.where { zone == "internal" }) do
-    its("interfaces") { should eq [["eth1"]] }
+    its("interfaces") { should eq [[input("internal_interface")]] }
   end
 end

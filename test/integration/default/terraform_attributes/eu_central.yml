@@ -2,5 +2,4 @@ hetzner_network_name: eu-central-test
 hetzner_network_ip_range: 10.1.0.0/16
 hetzner_network_zone: eu-central
 hetzner_network_name_internal: eu_central_test
-hetzner_network_gateway: 10.1.0.1
-nat_gateway_internal_interface: "enp7s0"
+loki_server: "10.1.1.2"

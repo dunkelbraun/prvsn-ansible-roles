@@ -1,4 +1,4 @@
-input("nat_gateway_internal_interface", value: "eth1")
+input("internal_interface", value: "eth1")
 
 control "Role NAT Gateway" do
   title ""
@@ -13,7 +13,7 @@ control "Role NAT Gateway" do
   end
 
   describe(firewalld.where { zone == "internal" }) do
-    its("interfaces") { should eq [[input("nat_gateway_internal_interface")]] }
+    its("interfaces") { should eq [[input("internal_interface")]] }
   end
 
   describe(firewalld.where { zone == "public" }) do
