@@ -1,0 +1,16 @@
+name: default
+title: PRVSN IAC
+version: 0.1.0
+attributes:
+  - name: network
+    type: hash
+    required: true
+  - name: subnet
+    type: hash
+    required: true
+  - name: nat_gateway
+    type: hash
+    required: true
+  - name: nat_gateway_ip_address
+    type: string
+    required: true
