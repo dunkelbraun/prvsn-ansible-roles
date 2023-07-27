@@ -7,3 +7,8 @@ output "subnet" {
   description = "Subnet (hcloud_network_subnet attributes)"
   value = hcloud_network_subnet.subnet
 }
+
+output "nat_gateway" {
+  description = "NAT Gateway server (hcloud_server attributes)"
+  value = hcloud_server.nat_gateway
+}

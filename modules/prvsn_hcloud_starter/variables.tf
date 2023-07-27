@@ -22,3 +22,15 @@ variable "network_zone" {
     error_message = "must be one of eu-central, us-east, or us-west"
   }
 }
+
+variable "ssh_key_id" {
+  description = "SSH key ID to use as the default for the NAT Gateway instance"
+  type = string
+}
+
+variable "nat_gateway_server_type" {
+  description = "Server type for the NAT gateway"
+  type        = string
+  default     = "cpx11"
+}
+

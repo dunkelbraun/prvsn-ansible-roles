@@ -1,0 +1,34 @@
+#cloud-config
+
+packages:
+  - git
+  - ansible
+
+write_files:
+  - path: /etc/playbooks/configure.yml
+    permissions: "0644"
+    content: |
+      ---
+
+      - name: "Configure"
+        hosts: localhost
+        become: true
+        roles:
+%{ for role_number, role in roles ~}
+          - role: ${role[0]}
+%{ for var_name, var_value in role[1] ~}
+            ${var_name}: "${var_value}"
+%{ endfor ~}
+%{ endfor ~}
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+runcmd:
+%{ for role_number, role in roles ~}
+  - ansible-galaxy install https://github.com/dunkelbraun/prvsn-ansible-roles/releases/download/v0.12.0/${role[0]}.tar.gz
+  - "[ -f /root/.ansible/roles/${role[0]}/requirements.yml ] && ansible-galaxy install -r /root/.ansible/roles/${role[0]}/requirements.yml"
+%{ endfor ~}
+  - ansible-playbook /etc/playbooks/configure.yml
+  - apt purge ansible -y && rm -rf /root/.ansible

@@ -1,3 +1,4 @@
 hetzner_network_name: us-west-test
 hetzner_network_ip_range: 10.3.0.0/16
 hetzner_network_zone: us-west
+nat_gateway_internal_interface: "enp7s0"

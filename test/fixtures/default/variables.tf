@@ -9,3 +9,7 @@ variable "network_cidr" {
 variable "network_zone" {
   type = string
 }
+
+variable "ssh_key_id" {
+  type = string
+}
