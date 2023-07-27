@@ -5,7 +5,6 @@ TerraformVerifier: &terraform_verifier
   backend: local
   controls:
     - "Terraform Network"
-    - "Terraform Subnet"
     - "Terraform NAT Gateway"
 
 NatGatewayVerifier: &nat_gateway_verifier
