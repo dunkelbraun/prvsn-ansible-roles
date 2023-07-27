@@ -1,0 +1,3 @@
+hetzner_network_name: eu-central-test
+hetzner_network_ip_range: 10.1.0.0/16
+hetzner_network_zone: eu-central

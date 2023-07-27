@@ -1,5 +1,12 @@
 ---
 
+TerraformVerifier: &terraform_verifier
+  name: Terraform
+  backend: local
+  controls:
+    - "Terraform Network"
+    - "Terraform Subnet"
+
 VagrantDriver: &vagrant_driver
   name: vagrant
   box: bento/ubuntu-22.04-arm64
@@ -138,6 +145,66 @@ platforms:
       name: inspec
       controls:
         - "Prometheus"
+
+  - name: hcloud-starter-eu-central
+    provisioner:
+      name: terraform
+    transport:
+      name: terraform
+      root_module_directory: test/fixtures/default
+    driver:
+      name: terraform
+      parallelism: 1
+      variables:
+        name: "eu-central-test"
+        network_zone: "eu-central"
+        network_cidr: "10.1.0.0/16"
+    verifier:
+      name: terraform
+      systems:
+        - <<: *terraform_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/eu_central.yml
+
+  - name: hcloud-starter-us-east
+    provisioner:
+      name: terraform
+    transport:
+      name: terraform
+      root_module_directory: test/fixtures/default
+    driver:
+      name: terraform
+      parallelism: 1
+      variables:
+        name: "us-east-test"
+        network_zone: "us-east"
+        network_cidr: "10.2.0.0/16"
+    verifier:
+      name: terraform
+      systems:
+        - <<: *terraform_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/us_east.yml
+
+  - name: hcloud-starter-us-west
+    provisioner:
+      name: terraform
+    transport:
+      name: terraform
+      root_module_directory: test/fixtures/default
+    driver:
+      name: terraform
+      parallelism: 1
+      variables:
+        name: "us-west-test"
+        network_zone: "us-west"
+        network_cidr: "10.3.0.0/16"
+    verifier:
+      name: terraform
+      systems:
+        - <<: *terraform_verifier
+          attrs:
+            - test/integration/default/terraform_attributes/us_west.yml
 
 suites:
   - name: default
