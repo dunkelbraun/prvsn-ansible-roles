@@ -1,4 +1,4 @@
-control "Loki" do
+control "Role Loki" do
   title ""
 
   describe service("loki") do

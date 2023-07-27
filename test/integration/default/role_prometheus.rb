@@ -1,7 +1,7 @@
 input("hetzner_network_name_internal", value: "a_network_name")
 input("hetzner_read_token", value: "abcd")
 
-control "Prometheus" do
+control "Role Prometheus" do
   title ""
 
   describe service("prometheus") do

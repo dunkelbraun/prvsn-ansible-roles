@@ -38,7 +38,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Internal Network Firewall"
+        - "Role Internal Network Firewall"
 
   - name: prvsn-nat-gateway
     driver:
@@ -52,7 +52,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "NAT Gateway"
+        - "Role NAT Gateway"
 
   - name: prvsn-docker
     driver:
@@ -66,7 +66,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Docker"
+        - "Role Docker"
 
   - name: prvsn-node-exporter
     driver:
@@ -81,7 +81,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Node Exporter"
+        - "Role Node Exporter"
 
   - name: prvsn-promtail
     driver:
@@ -97,7 +97,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Promtail"
+        - "Role Promtail"
 
   - name: prvsn-loki
     driver:
@@ -112,7 +112,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Loki"
+        - "Role Loki"
 
   - name: prvsn-grafana-oss
     driver:
@@ -127,7 +127,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Grafana OSS"
+        - "Role Grafana OSS"
 
   - name: prvsn-prometheus
     driver:
@@ -144,7 +144,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Prometheus"
+        - "Role Prometheus"
 
   - name: hcloud-starter-eu-central
     provisioner:

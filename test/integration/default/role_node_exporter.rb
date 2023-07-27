@@ -1,4 +1,4 @@
-control "Node Exporter" do
+control "Role Node Exporter" do
   title ""
 
   describe service("node_exporter") do

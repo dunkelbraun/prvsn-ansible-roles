@@ -1,4 +1,4 @@
-control "Internal Network Firewall" do
+control "Role Internal Network Firewall" do
   title ""
 
   describe firewalld do

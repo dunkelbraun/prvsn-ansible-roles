@@ -1,4 +1,4 @@
-control "Docker" do
+control "Role Docker" do
   title ""
 
   describe service("containerd") do

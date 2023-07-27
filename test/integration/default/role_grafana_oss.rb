@@ -1,4 +1,4 @@
-control "Grafana OSS" do
+control "Role Grafana OSS" do
   title ""
 
   describe package("grafana") do

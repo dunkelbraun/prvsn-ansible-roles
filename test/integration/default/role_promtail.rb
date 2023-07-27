@@ -1,4 +1,4 @@
-control "Promtail" do
+control "Role Promtail" do
   title ""
 
   describe service("promtail") do

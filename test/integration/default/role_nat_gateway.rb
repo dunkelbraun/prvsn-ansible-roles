@@ -1,4 +1,4 @@
-control "NAT Gateway" do
+control "Role NAT Gateway" do
   title ""
 
   describe firewalld do
