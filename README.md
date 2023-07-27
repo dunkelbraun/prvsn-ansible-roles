@@ -1,3 +1,3 @@
-# prvsn-ansible-roles
+# prvsn-iac
 
-Collection of Ansible roles.
+Collection of Ansible roles and Terraform modules.
