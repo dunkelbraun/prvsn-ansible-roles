@@ -1,0 +1,50 @@
+#cloud-config
+
+write_files:
+  - path: /etc/netplan/51-default.yaml
+    permissions: "0644"
+    content: |
+      network:
+        version: 2
+        ethernets:
+          enp7s0:
+            dhcp4: true
+            routes:
+              - to: 0.0.0.0/0
+                via: ${network_gateway}
+            nameservers:
+              addresses:
+                - 185.12.64.2
+                - 185.12.64.1
+
+  - path: /etc/playbooks/configure.yml
+    permissions: "0644"
+    content: |
+      ---
+      - name: "Configure"
+        hosts: localhost
+        become: true
+        roles:
+%{ for role_number, role in roles ~}
+          - role: ${role[0]}
+%{ for var_name, var_value in role[1] ~}
+            ${var_name}: "${var_value}"
+%{ endfor ~}
+%{ endfor ~}
+
+runcmd:
+  - netplan apply
+  - apt update -y && apt upgrade -y --fix-missing
+  - apt install -y ansible --fix-missing
+%{ for role_number, role in roles ~}
+  - ansible-galaxy install https://github.com/dunkelbraun/prvsn-ansible-roles/releases/download/v0.12.0/${role[0]}.tar.gz
+  - "[ -f /root/.ansible/roles/${role[0]}/requirements.yml ] && ansible-galaxy install -r /root/.ansible/roles/${role[0]}/requirements.yml"
+%{ endfor ~}
+  - ansible-playbook /etc/playbooks/configure.yml
+  - apt purge ansible -y && rm -rf /root/.ansible
+  - echo "Attach volume"
+  - while ! [ -e ${volume_linux_device} ]; do sleep 10; done # Wait until the volume is attached
+  - '[ -z "$(blkid ${volume_linux_device})" ] && mkfs.ext4 ${volume_linux_device}' # Format volume if unformatted
+  - mkdir -p /data # Create mount point
+  - echo "${volume_linux_device} /data ext4 discard,nofail,defaults 0 0" >> /etc/fstab # Mount device on reboot
+  - reboot

@@ -38,6 +38,20 @@ GrafanaVerifier: &grafana_verifier
   hosts_output: grafana_private_ip_address
   show_progress: true
 
+PrivateNetworkServer: &private_network_server
+  name: Private Network Server
+  backend: ssh
+  user: root
+  controls:
+    - "Role Internal Network Firewall"
+    - "Role Docker"
+    - "Role Node Exporter"
+    - "Role Promtail"
+    - "Data Volume"
+  bastion_host_output: nat_gateway_ip_address
+  hosts_output: private_network_server_private_ip_address
+  show_progress: true
+
 VagrantDriver: &vagrant_driver
   name: vagrant
   box: bento/ubuntu-22.04-arm64
@@ -205,6 +219,10 @@ platforms:
           attrs:
             - test/integration/default/terraform_attributes/eu_central.yml
             - test/integration/default/terraform_attributes/all.yml
+        - <<: *private_network_server
+          attrs:
+            - test/integration/default/terraform_attributes/eu_central.yml
+            - test/integration/default/terraform_attributes/all.yml
 
   - name: hcloud-starter-us-east
     provisioner:
@@ -234,6 +252,10 @@ platforms:
           attrs:
             - test/integration/default/terraform_attributes/us_east.yml
             - test/integration/default/terraform_attributes/all.yml
+        - <<: *private_network_server
+          attrs:
+            - test/integration/default/terraform_attributes/eu_central.yml
+            - test/integration/default/terraform_attributes/all.yml
 
   - name: hcloud-starter-us-west
     provisioner:
@@ -262,6 +284,10 @@ platforms:
         - <<: *grafana_verifier
           attrs:
             - test/integration/default/terraform_attributes/us_west.yml
+            - test/integration/default/terraform_attributes/all.yml
+        - <<: *private_network_server
+          attrs:
+            - test/integration/default/terraform_attributes/eu_central.yml
             - test/integration/default/terraform_attributes/all.yml
 
 suites:

@@ -55,3 +55,15 @@ output "grafana_load_balancer_service" {
 output "grafana_load_balancer_record" {
   value = module.default.grafana_load_balancer_record
 }
+
+output "private_network_server" {
+  value = module.private_network_server.private_network_server
+}
+
+output "private_network_server_private_ip_address" {
+  value = tolist(module.private_network_server.private_network_server.network)[0].ip
+}
+
+output "private_network_server_data_volume" {
+  value = module.private_network_server.private_network_server_data_volume
+}

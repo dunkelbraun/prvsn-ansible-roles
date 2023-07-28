@@ -1,0 +1,22 @@
+set +e
+RETRIES=30
+DELAY=30
+count=0
+while [ $count -lt $RETRIES ]
+do
+  echo "Checking cloud-init status..."
+  ssh \
+    -o StrictHostKeyChecking=no \
+    -o UserKnownHostsFile=/dev/null \
+    -o ConnectTimeout=10 \
+    -J root@${nat_gateway_ip} root@${server_ip} 'cloud-init status --long' | \
+    grep -q 'status: done' && break
+  count=$(($count + 1))
+  echo "Cloud-init not done. Retrying after $DELAY seconds..."
+  sleep $DELAY
+done
+if [ $count -eq $RETRIES ]; then
+  echo "Server did not become ready in time"
+  exit 1
+fi
+

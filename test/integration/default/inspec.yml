@@ -41,3 +41,9 @@ attributes:
   - name: grafana_load_balancer_record
     type: hash
     required: true
+  - name: private_network_server
+    type: hash
+    required: true
+  - name: private_network_server_data_volume
+    type: hash
+    required: true
