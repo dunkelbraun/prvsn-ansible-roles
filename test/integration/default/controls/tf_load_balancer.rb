@@ -5,6 +5,10 @@ control "Terraform Load Balancer" do
     it { expect(input("load_balancer").fetch(:name)).to eq("lb-#{input("hetzner_network_name")}") }
   end
 
+  describe "load balancer name" do
+    it { expect(input("load_balancer").fetch(:network_ip)).to eq(input("load_balancer_ip")) }
+  end
+
   describe "load balancer network" do
     describe "load_balancer_id" do
       it {

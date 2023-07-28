@@ -7,6 +7,7 @@ resource "hcloud_load_balancer" "load_balancer" {
 resource "hcloud_load_balancer_network" "load_balancer" {
   load_balancer_id = hcloud_load_balancer.load_balancer.id
   subnet_id        = hcloud_network_subnet.subnet.id
+  ip               = local.load_balancer_private_ip
 }
 
 resource "hcloud_load_balancer_target" "load_balancer_target" {

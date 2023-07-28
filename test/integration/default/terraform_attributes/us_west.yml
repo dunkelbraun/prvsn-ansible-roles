@@ -3,3 +3,4 @@ hetzner_network_ip_range: 10.3.0.0/16
 hetzner_network_zone: us-west
 hetzner_network_name_internal: us_west_test
 loki_server: "10.3.1.2"
+load_balancer_ip: "10.3.1.3"
