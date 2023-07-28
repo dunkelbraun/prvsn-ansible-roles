@@ -30,6 +30,10 @@ resource "hcloud_server" "nat_gateway" {
   })
 
   provisioner "local-exec" {
+    command = "sleep 300"
+  }
+
+  provisioner "local-exec" {
     command = templatefile("${path.module}/templates/server_wait.tftpl", {
       server_ip = self.ipv4_address
     })

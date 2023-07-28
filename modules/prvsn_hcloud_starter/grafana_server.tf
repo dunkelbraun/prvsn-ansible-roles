@@ -41,6 +41,10 @@ resource "hcloud_server" "grafana" {
   })
 
   provisioner "local-exec" {
+    command = "sleep 420"
+  }
+
+  provisioner "local-exec" {
     command = templatefile("${path.module}/templates/server_wait_jump_host.tftpl", {
       server_ip = tolist(self.network)[0].ip
       nat_gateway_ip = hcloud_server.nat_gateway.ipv4_address
