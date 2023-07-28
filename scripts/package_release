@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -euo pipefail
+
+
+version="$1"
+
+rm -rf tmp/"$version"
+
+mkdir -p tmp/"$version"
+
+declare -a roles=(
+  prvsn_docker
+  prvsn_nat_gateway
+  prvsn_internal_network_firewall
+  prvsn_promtail
+  prvsn_node_exporter
+  prvsn_grafana_oss
+  prvsn_loki
+  prvsn_prometheus
+  prvsn_prometheus
+)
+
+declare -a modules=(
+  prvsn_hcloud_private_network_server
+  prvsn_hcloud_starter
+)
+
+# Archive each role to a gzipped tarball
+for role in "${roles[@]}"; do
+    echo "Packaging Ansible role: $role"
+    tar --directory=roles -czf tmp/"$version"/"$role.$version".tar.gz "$role"
+done
+
+# Archive each module to a gzipped tarball
+for module in "${modules[@]}"; do
+    echo "Packaging Terraform module: $module"
+    cd modules/"$module"
+    tar -czf ./../../tmp/"$version"/"$module.$version".tar.gz -- *
+    cd ./../../
+done
