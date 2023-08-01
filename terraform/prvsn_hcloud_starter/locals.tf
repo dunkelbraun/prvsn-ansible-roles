@@ -11,7 +11,4 @@ locals {
 
   grafana_private_ip = replace(var.network_cidr, ".0.0/16", ".1.2")
   grafana_server_name = "grafana-${replace(lower(var.name), " ", "-")}"
-
-  load_balancer_name = "lb-${replace(lower(var.name), " ", "-")}"
-  load_balancer_private_ip = replace(var.network_cidr, ".0.0/16", ".1.3")
 }

@@ -44,14 +44,3 @@ variable "hcloud_read_token" {
   description = "Hetzner Cloud API token to use for read-only operations"
   type        = string
 }
-
-variable "load_balancer_type" {
-  description = "Load balancer type"
-  type        = string
-  default     = "lb11"
-}
-
-variable "domain" {
-  description = "Domain to use for the load balancer"
-  type        = string
-}

@@ -7,7 +7,7 @@ TerraformVerifier: &terraform_verifier
     - "Terraform Network"
     - "Terraform NAT Gateway"
     - "Terraform Grafana"
-    - "Terraform Load Balancer"
+    - "Terraform Grafana Load Balancer"
   show_progress: true
 
 NatGatewayVerifier: &nat_gateway_verifier

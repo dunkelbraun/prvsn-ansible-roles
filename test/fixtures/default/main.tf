@@ -5,7 +5,17 @@ module "default" {
   network_cidr             = var.network_cidr
   ssh_key_id               = var.ssh_key_id
   hcloud_read_token        = "abcde"
-  domain                   = "prvsn.dev"
+}
+
+module "grafana_load_balancer" {
+  source              = "../../../terraform/prvsn_hcloud_load_balancer"
+  load_balancer_type  = "small"
+  network_zone        = var.network_zone
+  destination_port    = "3000"
+  subnet_id           = module.default.subnet.id
+  domain              = "prvsn.dev"
+  subdomain           = "grafana-${var.name}"
+  target_server_ids   = [module.default.grafana_server.id]
 }
 
 module "private_network_server" {
@@ -21,3 +31,5 @@ module "private_network_server" {
   network_gateway          = module.default.subnet.gateway
   nat_gateway_ipv4_address =  module.default.nat_gateway.ipv4_address
 }
+
+
