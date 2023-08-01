@@ -12,7 +12,11 @@ None.
 
 ## Role Variables
 
-None.
+- prvsn_grafana_oss_internal_network_cidr
+
+  Internal Network CIDR.
+
+  Default: none.
 
 ## Dependencies
 

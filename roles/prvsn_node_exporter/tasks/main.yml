@@ -10,11 +10,10 @@
   ansible.builtin.package_facts:
     manager: "auto"
 
-- name: Allow port 9100
-  ansible.posix.firewalld:
-    port: 9100/tcp
-    zone: internal
-    permanent: true
-    immediate: true
+- name: Allow all access from internal network to port 9100
+  community.general.ufw:
+    rule: allow
+    to_port: "9100"
+    proto: tcp
+    from_ip: "{{ prvsn_node_exporter_internal_network_cidr }}"
     state: enabled
-  when: "'firewalld' in ansible_facts.packages"

@@ -17,10 +17,6 @@ control "Terraform NAT Gateway" do
     it { expect(input("nat_gateway").fetch(:delete_protection)).to be false }
   end
 
-  describe "image" do
-    it { expect(input("nat_gateway").fetch(:image)).to eq("ubuntu-22.04") }
-  end
-
   describe "datacenter" do
     it {
       datacenters = {

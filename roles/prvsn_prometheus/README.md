@@ -24,6 +24,13 @@ None.
 
   Default: none
 
+- prvsn_prometheus_internal_network_cidr
+
+  Internal Network CIDR.
+
+  Default: none.
+
+
 ## Dependencies
 
 ### Collections

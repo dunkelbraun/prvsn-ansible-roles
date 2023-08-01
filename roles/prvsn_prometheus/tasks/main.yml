@@ -13,14 +13,14 @@
   ansible.builtin.package_facts:
     manager: "auto"
 
-- name: Allow port 9090
-  ansible.posix.firewalld:
-    port: 9090/tcp
-    zone: internal
-    permanent: true
-    immediate: true
+- name: Allow all access from internal network to port 9090
+  community.general.ufw:
+    rule: allow
+    to_port: "9090"
+    proto: tcp
+    from_ip: "{{ prvsn_prometheus_internal_network_cidr }}"
     state: enabled
-  when: "'firewalld' in ansible_facts.packages"
+    direction: in
 
 - name: Add pfsd user
   ansible.builtin.user:

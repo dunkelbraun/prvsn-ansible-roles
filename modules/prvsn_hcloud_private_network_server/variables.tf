@@ -13,8 +13,8 @@ variable "server_type" {
   }
 }
 
-variable "network_id" {
-  description = "ID of the network to attach the server to"
+variable "network_name" {
+  description = "Name of the network to attach the server to"
   type        = string
 }
 

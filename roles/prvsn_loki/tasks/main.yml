@@ -8,20 +8,18 @@
   ansible.builtin.package_facts:
     manager: "auto"
 
-- name: Allow port 3100
-  ansible.posix.firewalld:
-    port: 3100/tcp
-    zone: internal
-    permanent: true
-    immediate: true
+- name: Allow all access from internal network to port 3100
+  community.general.ufw:
+    rule: allow
+    to_port: "3100"
+    proto: tcp
+    from_ip: "{{ prvsn_loki_internal_network_cidr }}"
     state: enabled
-  when: "'firewalld' in ansible_facts.packages"
 
-- name: Allow port 9096
-  ansible.posix.firewalld:
-    port: 9096/tcp
-    zone: internal
-    permanent: true
-    immediate: true
+- name: Allow all access from internal network to port 9096
+  community.general.ufw:
+    rule: allow
+    to_port: "9096"
+    proto: tcp
+    from_ip: "{{ prvsn_loki_internal_network_cidr }}"
     state: enabled
-  when: "'firewalld' in ansible_facts.packages"

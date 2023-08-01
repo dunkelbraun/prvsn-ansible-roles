@@ -1,5 +1,9 @@
+resource "random_id" "volume" {
+  byte_length = 4
+}
+
 resource "hcloud_volume" "data" {
-  name              = replace("${var.name}-data", "/\\s+/", "")
+  name              = replace("${var.name}-data-${random_id.volume.hex}", "/\\s+/", "")
   size              = var.data_volume_size
   location          = local.location
   format            = "ext4"

@@ -12,7 +12,11 @@ None.
 
 ## Role Variables
 
-None.
+- prvsn_loki_internal_network_cidr
+
+  Internal Network CIDR.
+
+  Default: none.
 
 ## Dependencies
 

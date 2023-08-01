@@ -3,7 +3,7 @@ resource "hcloud_server" "nat_gateway" {
 
   name        = local.nat_gateway_server_name
   server_type = var.nat_gateway_server_type
-  image       = local.server_image
+  image       = data.hcloud_image.base_server_snapshot.id
   ssh_keys    = [ var.ssh_key_id ]
 
   datacenter = random_shuffle.datacenter.result[0]
@@ -21,23 +21,8 @@ resource "hcloud_server" "nat_gateway" {
   })
 
   user_data = templatefile("${path.module}/templates/nat_gateway_cloud_init.tftpl", {
-    roles = {
-      "1": [ "prvsn_nat_gateway", {} ],
-      "2": [ "prvsn_docker", {} ],
-      "3": [ "prvsn_node_exporter", {} ],
-      "4": [ "prvsn_promtail", { "prvsn_promtail_loki_server" = local.grafana_private_ip } ]
-    }
+    ip_range = hcloud_network_subnet.subnet.ip_range
   })
-
-  provisioner "local-exec" {
-    command = "sleep 300"
-  }
-
-  provisioner "local-exec" {
-    command = templatefile("${path.module}/templates/server_wait.tftpl", {
-      server_ip = self.ipv4_address
-    })
-  }
 }
 
 resource "hcloud_network_route" "nat_gateway_route" {

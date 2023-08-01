@@ -1,0 +1,18 @@
+---
+
+- name: Configure base server
+  hosts: default
+  become: true
+  tasks:
+    - name: Allow SSH traffic
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+        state: enabled
+
+  roles:
+    - role: prvsn_docker
+    - role: prvsn_promtail
+      prvsn_promtail_loki_server: "{{ loki_server }}"
+    - role: prvsn_node_exporter
+      prvsn_node_exporter_internal_network_cidr: "{{ internal_network_cidr }}"

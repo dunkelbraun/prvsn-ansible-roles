@@ -6,8 +6,9 @@ control "Role Loki" do
     it { is_expected.to be_running }
   end
 
-  describe firewalld do
-    it { should have_port_enabled_in_zone("3100/tcp", "internal") }
-    it { should have_port_enabled_in_zone("9096/tcp", "internal") }
+  describe command("ufw status verbose") do
+    its(:stdout) { is_expected.to match(/Status: active/) }
+    its(:stdout) { should match(%r{3100/tcp\s+ALLOW IN\s+#{input('hetzner_network_ip_range')}}) }
+    its(:stdout) { should match(%r{9096/tcp\s+ALLOW IN\s+#{input('hetzner_network_ip_range')}}) }
   end
 end

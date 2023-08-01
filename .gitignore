@@ -45,3 +45,6 @@ override.tf.json
 terraform.rc
 
 tmp
+
+.DS_Store
+

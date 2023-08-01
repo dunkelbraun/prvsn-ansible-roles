@@ -12,7 +12,12 @@ None.
 
 ## Role Variables
 
-None.
+- prvsn_node_exporter_internal_network_cidr
+
+  Internal Network CIDR.
+
+  Default: none.
+
 
 ## Dependencies
 

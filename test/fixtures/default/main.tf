@@ -9,11 +9,12 @@ module "default" {
 }
 
 module "private_network_server" {
+  depends_on = [module.default]
   source                   = "../../../modules/prvsn_hcloud_private_network_server"
-  name                     = "test-server"
+  name                     = "test-server-${var.network_zone}"
   server_type              = "medium"
   network_zone             = var.network_zone
-  network_id               = module.default.network.id
+  network_name             = module.default.network.name
   ssh_key_id               = var.ssh_key_id
   data_volume_size         = 30
   grafana_private_ip       = tolist(module.default.grafana_server.network)[0].ip

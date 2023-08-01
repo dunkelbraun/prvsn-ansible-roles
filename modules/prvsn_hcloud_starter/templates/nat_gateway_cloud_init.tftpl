@@ -1,29 +1,7 @@
 #cloud-config
 
-write_files:
-  - path: /etc/playbooks/configure.yml
-    permissions: "0644"
-    content: |
-      ---
-
-      - name: "Configure"
-        hosts: localhost
-        become: true
-        roles:
-%{ for role_number, role in roles ~}
-          - role: ${role[0]}
-%{ for var_name, var_value in role[1] ~}
-            ${var_name}: "${var_value}"
-%{ endfor ~}
-%{ endfor ~}
-
 runcmd:
-  - apt update -y && apt upgrade -y --fix-missing
-  - apt install -y ansible --fix-missing
-%{ for role_number, role in roles ~}
-  - ansible-galaxy install https://github.com/dunkelbraun/prvsn-ansible-roles/releases/download/v0.12.0/${role[0]}.tar.gz
-  - "[ -f /root/.ansible/roles/${role[0]}/requirements.yml ] && ansible-galaxy install -r /root/.ansible/roles/${role[0]}/requirements.yml"
-%{ endfor ~}
-  - ansible-playbook /etc/playbooks/configure.yml
-  - apt purge ansible -y && rm -rf /root/.ansible
-  - reboot
+  - sed -i '/\*filter/i *nat\n:POSTROUTING ACCEPT [0:0]\n-A POSTROUTING -s "${ip_range}" -o eth0 -j MASQUERADE\nCOMMIT' /etc/ufw/before.rules
+  - sed -i 's/DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/' /etc/default/ufw
+  - sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/ufw/sysctl.conf
+  - ufw reload

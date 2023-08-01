@@ -15,7 +15,7 @@ NatGatewayVerifier: &nat_gateway_verifier
   backend: ssh
   user: root
   controls:
-    - "Role NAT Gateway"
+    - "Default Firewall"
     - "Role Docker"
     - "Role Node Exporter"
     - "Role Promtail"
@@ -27,7 +27,7 @@ GrafanaVerifier: &grafana_verifier
   backend: ssh
   user: root
   controls:
-    - "Role Internal Network Firewall"
+    - "Default Firewall"
     - "Role Docker"
     - "Role Node Exporter"
     - "Role Loki"
@@ -43,7 +43,7 @@ PrivateNetworkServer: &private_network_server
   backend: ssh
   user: root
   controls:
-    - "Role Internal Network Firewall"
+    - "Default Firewall"
     - "Role Docker"
     - "Role Node Exporter"
     - "Role Promtail"
@@ -83,7 +83,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Role Internal Network Firewall"
+        - "Default Firewall"
 
   - name: prvsn-nat-gateway
     driver:
@@ -97,7 +97,7 @@ platforms:
     verifier:
       name: inspec
       controls:
-        - "Role NAT Gateway"
+        - "Default Firewall"
 
   - name: prvsn-docker
     driver:
@@ -254,7 +254,7 @@ platforms:
             - test/integration/default/terraform_attributes/all.yml
         - <<: *private_network_server
           attrs:
-            - test/integration/default/terraform_attributes/eu_central.yml
+            - test/integration/default/terraform_attributes/us_east.yml
             - test/integration/default/terraform_attributes/all.yml
 
   - name: hcloud-starter-us-west
@@ -287,7 +287,7 @@ platforms:
             - test/integration/default/terraform_attributes/all.yml
         - <<: *private_network_server
           attrs:
-            - test/integration/default/terraform_attributes/eu_central.yml
+            - test/integration/default/terraform_attributes/us_west.yml
             - test/integration/default/terraform_attributes/all.yml
 
 suites:

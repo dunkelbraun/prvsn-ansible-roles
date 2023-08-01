@@ -1,7 +1,11 @@
 input("internal_interface", value: "eth1")
 
-control "Role Internal Network Firewall" do
+control "Role NAT Gateway" do
   title ""
+
+  describe service("ufw") do
+    it { should be_running }
+  end
 
   describe command("ufw status verbose") do
     its(:stdout) { is_expected.to match(/Status: active/) }
