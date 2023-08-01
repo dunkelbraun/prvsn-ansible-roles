@@ -1,5 +1,5 @@
 module "default" {
-  source                   = "../../../modules/prvsn_hcloud_starter"
+  source                   = "../../../terraform/prvsn_hcloud_starter"
   name                     = var.name
   network_zone             = var.network_zone
   network_cidr             = var.network_cidr
@@ -10,7 +10,7 @@ module "default" {
 
 module "private_network_server" {
   depends_on = [module.default]
-  source                   = "../../../modules/prvsn_hcloud_private_network_server"
+  source                   = "../../../terraform/prvsn_hcloud_private_network_server"
   name                     = "test-server-${var.network_zone}"
   server_type              = "medium"
   network_zone             = var.network_zone
