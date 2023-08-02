@@ -27,7 +27,7 @@ module "private_network_server" {
   network_name             = module.default.network.name
   ssh_key_id               = var.ssh_key_id
   data_volume_size         = 30
-  grafana_private_ip       = tolist(module.default.grafana_server.network)[0].ip
+  grafana_private_ip       = module.default.grafana_server.private_ip
   network_gateway          = module.default.network.subnet.gateway
   nat_gateway_ipv4_address =  module.default.nat_gateway.ipv4_address
 }

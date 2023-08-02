@@ -16,7 +16,7 @@ output "grafana_server" {
 }
 
 output "grafana_private_ip_address" {
-  value = tolist(module.default.grafana_server.network)[0].ip
+  value = module.default.grafana_server.private_ip
 }
 
 output "ssh_traffic_firewall" {

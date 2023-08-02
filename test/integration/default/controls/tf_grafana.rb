@@ -7,24 +7,16 @@ control "Terraform Grafana" do
 
   describe "server network_id" do
     it {
-      expect(input("grafana_server").fetch(:network)[0][:network_id]).to eq(input("network").fetch(:id).to_i)
+      expect(input("grafana_server").fetch(:network_id)).to eq(input("network").fetch(:id).to_i)
     }
   end
 
   describe "server ipv4" do
-    it { expect(input("grafana_server").fetch(:public_net)[0][:ipv4]).to eq(0) }
-  end
-
-  describe "server ipv4_enabled" do
-    it { expect(input("grafana_server").fetch(:public_net)[0][:ipv4_enabled]).to be false }
+    it { expect(input("grafana_server").fetch(:ipv4_address)).to eq 0 }
   end
 
   describe "server ipv6" do
-    it { expect(input("grafana_server").fetch(:public_net)[0][:ipv6]).to eq(0) }
-  end
-
-  describe "server ipv6_enabled" do
-    it { expect(input("grafana_server").fetch(:public_net)[0][:ipv6_enabled]).to be false }
+    it { expect(input("grafana_server").fetch(:ipv6_address)).to eq 0 }
   end
 
   describe "server backups" do
