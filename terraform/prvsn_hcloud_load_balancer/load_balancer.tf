@@ -9,14 +9,6 @@ resource "hcloud_load_balancer_network" "load_balancer" {
   subnet_id        = var.subnet_id
 }
 
-resource "hcloud_load_balancer_target" "target" {
-  count            = length(var.target_server_ids)
-  type             = "server"
-  load_balancer_id = hcloud_load_balancer.load_balancer.id
-  server_id        = var.target_server_ids[count.index]
-  use_private_ip   = true
-}
-
 resource "hcloud_load_balancer_service" "service" {
   load_balancer_id = hcloud_load_balancer.load_balancer.id
   protocol         = "https"
@@ -29,6 +21,19 @@ resource "hcloud_load_balancer_service" "service" {
       hcloud_managed_certificate.certificate.id
     ]
   }
+}
+
+resource "hcloud_load_balancer_target" "target" {
+  depends_on = [
+    hcloud_load_balancer_network.load_balancer,
+    hcloud_load_balancer_service.service
+  ]
+
+  count            = length(var.target_server_ids)
+  type             = "server"
+  load_balancer_id = hcloud_load_balancer.load_balancer.id
+  server_id        = var.target_server_ids[count.index]
+  use_private_ip   = true
 }
 
 resource "hcloud_managed_certificate" "certificate" {
