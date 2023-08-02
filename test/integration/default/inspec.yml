@@ -5,9 +5,6 @@ attributes:
   - name: network
     type: hash
     required: true
-  - name: subnet
-    type: hash
-    required: true
   - name: nat_gateway
     type: hash
     required: true

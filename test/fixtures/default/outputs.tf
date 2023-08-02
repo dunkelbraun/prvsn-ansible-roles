@@ -1,12 +1,7 @@
 output "network" {
-  description = "Network"
   value = module.default.network
 }
 
-output "subnet" {
-  description = "Network"
-  value = module.default.subnet
-}
 
 output "nat_gateway" {
   value = module.default.nat_gateway

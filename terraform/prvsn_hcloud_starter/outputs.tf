@@ -1,11 +1,19 @@
 output "network" {
-  description = "Network (hcloud_network attributes)"
-  value = hcloud_network.network
-}
-
-output "subnet" {
-  description = "Subnet (hcloud_network_subnet attributes)"
-  value = hcloud_network_subnet.subnet
+  description = "Network Details"
+  value = {
+    id = hcloud_network.network.id,
+    name = hcloud_network.network.name,
+    ip_range = hcloud_network.network.ip_range,
+    delete_protection = hcloud_network.network.delete_protection,
+    expose_routes_to_vswitch = hcloud_network.network.expose_routes_to_vswitch,
+    labels = hcloud_network.network.labels
+    subnet = {
+      id = hcloud_network_subnet.subnet.id,
+      ip_range = hcloud_network_subnet.subnet.ip_range,
+      network_zone = hcloud_network_subnet.subnet.network_zone,
+      gateway = hcloud_network_subnet.subnet.gateway
+    }
+  }
 }
 
 output "nat_gateway" {

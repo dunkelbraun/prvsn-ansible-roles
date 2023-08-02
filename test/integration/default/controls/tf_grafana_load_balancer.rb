@@ -16,7 +16,7 @@ control "Terraform Grafana Load Balancer" do
 
     describe "subnet_id" do
       it {
-        expected_subnet_id = "#{input("network").fetch(:id)}-#{input("subnet").fetch(:ip_range)}"
+        expected_subnet_id = input("network").fetch(:subnet).fetch(:id)
         expect(input("grafana_load_balancer_network").fetch(:subnet_id)).to eq(expected_subnet_id)
       }
     end

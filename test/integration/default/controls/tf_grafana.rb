@@ -7,7 +7,7 @@ control "Terraform Grafana" do
 
   describe "server network_id" do
     it {
-      expect(input("grafana_server").fetch(:network)[0][:network_id]).to eq(input("subnet")[:network_id])
+      expect(input("grafana_server").fetch(:network)[0][:network_id]).to eq(input("network").fetch(:id).to_i)
     }
   end
 

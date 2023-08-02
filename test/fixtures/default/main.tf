@@ -12,7 +12,7 @@ module "grafana_load_balancer" {
   load_balancer_type  = "small"
   network_zone        = var.network_zone
   destination_port    = "3000"
-  subnet_id           = module.default.subnet.id
+  subnet_id           = module.default.network.subnet.id
   domain              = "prvsn.dev"
   subdomain           = "grafana-${var.name}"
   target_server_ids   = [module.default.grafana_server.id]
@@ -28,7 +28,7 @@ module "private_network_server" {
   ssh_key_id               = var.ssh_key_id
   data_volume_size         = 30
   grafana_private_ip       = tolist(module.default.grafana_server.network)[0].ip
-  network_gateway          = module.default.subnet.gateway
+  network_gateway          = module.default.network.subnet.gateway
   nat_gateway_ipv4_address =  module.default.nat_gateway.ipv4_address
 }
 

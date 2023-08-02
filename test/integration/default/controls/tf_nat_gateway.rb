@@ -24,7 +24,7 @@ control "Terraform NAT Gateway" do
         "us-east" => %w[ash-dc1],
         "us-west" => %w[hil-dc1]
       }
-      available_datacenters_in_zone = datacenters[input("subnet").fetch(:network_zone)]
+      available_datacenters_in_zone = datacenters[input("network").fetch(:subnet).fetch(:network_zone)]
       regex = Regexp.new(available_datacenters_in_zone.join("|"))
       expect(input("nat_gateway").fetch(:datacenter)).to match(regex)
     }
