@@ -47,3 +47,6 @@ attributes:
   - name: private_network_server_data_volume
     type: hash
     required: true
+  - name: ssh_traffic_firewall
+    type: hash
+    required: true

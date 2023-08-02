@@ -48,4 +48,10 @@ control "Terraform NAT Gateway" do
   describe "server type" do
     it { expect(input("nat_gateway")[:server_type]).to eq("cpx11") }
   end
+
+  describe "firewall" do
+    it {
+      expect(input("nat_gateway").fetch(:firewall_ids)).to eq([input("ssh_traffic_firewall").fetch(:id).to_i])
+    }
+  end
 end

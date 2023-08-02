@@ -15,6 +15,10 @@ resource "hcloud_server" "nat_gateway" {
     ip         = local.nat_gateway_private_ip
   }
 
+  firewall_ids = [
+    hcloud_firewall.ssh_traffic.id
+  ]
+
   labels = merge(local.default_labels, {
     "role" = "nat"
     "network" = hcloud_network.network.name
@@ -29,4 +33,18 @@ resource "hcloud_network_route" "nat_gateway_route" {
   network_id  = hcloud_network.network.id
   destination = "0.0.0.0/0"
   gateway     = tolist(hcloud_server.nat_gateway.network)[0].ip
+}
+
+resource "hcloud_firewall" "ssh_traffic" {
+  name = "ssh_traffic"
+
+  rule {
+    direction = "in"
+    protocol  = "tcp"
+    port      = "22"
+    source_ips = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
 }

@@ -17,3 +17,8 @@ output "grafana_server" {
   description = "Grafana server (hcloud_server attributes)"
   value = hcloud_server.grafana
 }
+
+output "ssh_traffic_firewall" {
+  description = "SSH traffic firewall (hcloud_firewall attributes)"
+  value = hcloud_firewall.ssh_traffic
+}

@@ -24,6 +24,10 @@ output "grafana_private_ip_address" {
   value = tolist(module.default.grafana_server.network)[0].ip
 }
 
+output "ssh_traffic_firewall" {
+  value = module.default.ssh_traffic_firewall
+}
+
 output "private_network_server" {
   value = module.private_network_server.private_network_server
 }
