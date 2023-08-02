@@ -60,6 +60,10 @@ output "grafana_load_balancer_record" {
   value = module.grafana_load_balancer.load_balancer_record
 }
 
-output "grafana_managed_cerfificate" {
-  value = module.grafana_load_balancer.managed_cerfificate
+output "grafana_managed_cerfificate_domain_names" {
+  value = module.grafana_load_balancer.managed_cerfificate_domain_names
+}
+
+output "grafana_managed_cerfificate_id" {
+  value = module.grafana_load_balancer.managed_cerfificate_id
 }

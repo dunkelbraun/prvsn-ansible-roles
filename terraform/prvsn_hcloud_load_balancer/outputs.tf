@@ -23,7 +23,12 @@ output "load_balancer_record" {
   value = hetznerdns_record.record
 }
 
-output "managed_cerfificate" {
-  description = "Managed Certificate"
-  value = hcloud_managed_certificate.certificate
+output "managed_cerfificate_domain_names" {
+  description = "Managed Certificate Domain Names"
+  value = hcloud_managed_certificate.certificate.domain_names
+}
+
+output "managed_cerfificate_id" {
+  description = "Managed Certificate ID"
+  value = hcloud_managed_certificate.certificate.id
 }

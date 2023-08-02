@@ -54,13 +54,13 @@ control "Terraform Grafana Load Balancer" do
   end
 
   describe "managed_cerfificate" do
-    it { expect(input("grafana_managed_cerfificate").fetch(:domain_names).length).to eq 1 }
+    it { expect(input("grafana_managed_cerfificate_domain_names").length).to eq 1 }
   end
 
   describe "managed_cerfificate_domain_name" do
     it {
       expected_domain_name = /^grafana-#{input("hetzner_network_name")}.prvsn\.dev$/
-      expect(input("grafana_managed_cerfificate").fetch(:domain_names)[0]).to match(expected_domain_name)
+      expect(input("grafana_managed_cerfificate_domain_names")[0]).to match(expected_domain_name)
     }
   end
 
@@ -86,7 +86,7 @@ control "Terraform Grafana Load Balancer" do
 
     describe "certificates" do
       it {
-        expected_certificates = [input("grafana_managed_cerfificate").fetch(:id).to_i]
+        expected_certificates = [input("grafana_managed_cerfificate_id").to_i]
         expect(input("grafana_load_balancer_service").fetch(:http)[0].fetch(:certificates)).to eq expected_certificates
       }
     end
@@ -114,12 +114,12 @@ control "Terraform Grafana Load Balancer" do
     end
   end
 
-  describe http("https://#{input("grafana_managed_cerfificate").fetch(:domain_names)[0]}") do
+  describe http("https://#{input("grafana_managed_cerfificate_domain_names")[0]}") do
     its("status") { should eq 302 }
     its("headers.Location") { should eq("/login") }
   end
 
-  describe http("https://#{input("grafana_managed_cerfificate").fetch(:domain_names)[0]}", max_redirects: 1) do
+  describe http("https://#{input("grafana_managed_cerfificate_domain_names")[0]}", max_redirects: 1) do
     its("status") { should eq 200 }
   end
 end

@@ -29,13 +29,10 @@ attributes:
   - name: load_balancer_target
     type: hash
     required: true
-  - name: managed_cerfificate_id
+  - name: grafana_managed_cerfificate_id
     type: numeric
     required: true
-  - name: managed_cerfificate_name
-    type: string
-    required: true
-  - name: managed_cerfificate_domain_names
+  - name: grafana_managed_cerfificate_domain_names
     type: array
     required: true
   - name: grafana_load_balancer_record
