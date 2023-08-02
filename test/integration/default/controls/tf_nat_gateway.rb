@@ -32,14 +32,14 @@ control "Terraform NAT Gateway" do
 
   describe "network ID" do
     it {
-      network_id = input("nat_gateway").fetch(:network).first.fetch(:network_id)
+      network_id = input("nat_gateway").fetch(:network_id)
       expect(network_id).to eq(input("network").fetch(:id).to_i)
     }
   end
 
-  describe "IP" do
+  describe "Private IP" do
     it {
-      ip = input("nat_gateway").fetch(:network).first.fetch(:ip)
+      ip = input("nat_gateway").fetch(:private_ip)
       expected_ip = input("network").fetch(:ip_range).gsub("0.0/16", "1.1")
       expect(ip).to eq(expected_ip)
     }

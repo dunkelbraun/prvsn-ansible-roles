@@ -64,7 +64,7 @@ control "Terraform Grafana" do
     it {
       expected_labels = {
         "created-by": "prvsn-hcloud-starter",
-        gateway: input("nat_gateway").fetch(:network)[0].fetch(:ip),
+        gateway: input("nat_gateway").fetch(:private_ip),
         network: input("hetzner_network_name"),
         role: "grafana"
       }

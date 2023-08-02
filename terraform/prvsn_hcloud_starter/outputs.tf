@@ -17,8 +17,19 @@ output "network" {
 }
 
 output "nat_gateway" {
-  description = "NAT Gateway server (hcloud_server attributes)"
-  value = hcloud_server.nat_gateway
+  description = "NAT Gateway details"
+  value = {
+    name = hcloud_server.nat_gateway.name,
+    keep_disk = hcloud_server.nat_gateway.keep_disk,
+    backups = hcloud_server.nat_gateway.backups,
+    delete_protection = hcloud_server.nat_gateway.delete_protection,
+    datacenter = hcloud_server.nat_gateway.datacenter,
+    network_id = tolist(hcloud_server.nat_gateway.network)[0].network_id,
+    ipv4_address = hcloud_server.nat_gateway.ipv4_address,
+    private_ip = tolist(hcloud_server.nat_gateway.network)[0].ip,
+    server_type = hcloud_server.nat_gateway.server_type,
+    firewall_ids = hcloud_server.nat_gateway.firewall_ids,
+  }
 }
 
 output "grafana_server" {
