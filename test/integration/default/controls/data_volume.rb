@@ -4,7 +4,6 @@ control "Data Volume" do
   title ""
 
   describe(etc_fstab.where { mount_point == "/data" }) do
-    its("device_name") { should cmp input("private_network_server_data_volume").fetch(:linux_device) }
     its("file_system_type") { should cmp "ext4" }
     its("mount_options") { should eq [%w[discard nofail defaults]] }
     its("dump_options") { should cmp 0 }

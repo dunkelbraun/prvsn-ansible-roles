@@ -4,6 +4,7 @@ TerraformVerifier: &terraform_verifier
   name: Terraform
   backend: local
   controls:
+    - "Terraform State"
     - "Terraform Network"
     - "Terraform NAT Gateway"
     - "Terraform Grafana"
@@ -49,7 +50,7 @@ PrivateNetworkServer: &private_network_server
     - "Role Promtail"
     - "Data Volume"
   bastion_host_output: nat_gateway_ip_address
-  hosts_output: private_network_server_private_ip_address
+  hosts_output: private_network_server_ip
   show_progress: true
 
 VagrantDriver: &vagrant_driver
