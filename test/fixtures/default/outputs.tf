@@ -2,7 +2,6 @@ output "network" {
   value = module.default.network
 }
 
-
 output "nat_gateway" {
   value = module.default.nat_gateway
 }
@@ -17,10 +16,6 @@ output "grafana_server" {
 
 output "grafana_private_ip_address" {
   value = module.default.grafana_server.private_ip
-}
-
-output "ssh_traffic_firewall" {
-  value = module.default.ssh_traffic_firewall
 }
 
 output "private_network_server_ip" {

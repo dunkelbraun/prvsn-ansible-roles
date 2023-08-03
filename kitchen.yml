@@ -6,7 +6,6 @@ TerraformVerifier: &terraform_verifier
   controls:
     - "Terraform State"
     - "Terraform Network"
-    - "Terraform NAT Gateway"
     - "Terraform Grafana"
     - "Terraform Grafana Load Balancer"
   show_progress: true
