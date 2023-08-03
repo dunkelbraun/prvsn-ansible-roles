@@ -1,3 +1,68 @@
+check "network" {
+  assert {
+    condition = hcloud_network.network.name == var.name
+    error_message = <<-MSG
+      Incorrect network name
+        Expected: ${format("%#v", var.name)}
+          Actual: ${format("%#v", hcloud_network.network.name)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_network.network.ip_range == var.network_cidr
+    error_message = <<-MSG
+      Incorrect network ip_range
+        Expected: ${format("%#v", var.network_cidr)}
+          Actual: ${format("%#v", hcloud_network.network.ip_range)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_network.network.delete_protection == false
+    error_message = <<-MSG
+      Incorrect network delete_protection
+        Expected: ${format("%#v", false)}
+          Actual: ${format("%#v", hcloud_network.network.delete_protection)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_network.network.expose_routes_to_vswitch == false
+    error_message = <<-MSG
+      Incorrect network expose_routes_to_vswitch
+        Expected: ${format("%#v", false)}
+          Actual: ${format("%#v", hcloud_network.network.expose_routes_to_vswitch)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_network_subnet.subnet.network_zone == var.network_zone
+    error_message = <<-MSG
+      Incorrect subnet network_zone
+        Expected: ${format("%#v", var.network_zone)}
+          Actual: ${format("%#v", hcloud_network_subnet.subnet.network_zone)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_network_subnet.subnet.ip_range == replace(var.network_cidr, ".0.0/16", ".1.0/24")
+    error_message = <<-MSG
+      Incorrect subnet ip_range
+        Expected: ${format("%#v", replace(var.network_cidr, ".0.0/16", ".1.0/24"))}
+          Actual: ${format("%#v", hcloud_network_subnet.subnet.ip_range)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_network_subnet.subnet.type == "cloud"
+    error_message = <<-MSG
+      Incorrect subnet type
+        Expected: ${format("%#v", "cloud")}
+          Actual: ${format("%#v", hcloud_network_subnet.subnet.type)}
+    MSG
+  }
+}
+
 check "nat_gateway" {
   assert {
     condition = hcloud_server.nat_gateway.name == "nat-${replace(lower(var.name), " ", "-")}"

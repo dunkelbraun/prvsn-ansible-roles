@@ -4,9 +4,7 @@ output "network" {
     id = hcloud_network.network.id,
     name = hcloud_network.network.name,
     ip_range = hcloud_network.network.ip_range,
-    delete_protection = hcloud_network.network.delete_protection,
-    expose_routes_to_vswitch = hcloud_network.network.expose_routes_to_vswitch,
-    labels = hcloud_network.network.labels
+    labels = hcloud_network.network.labels,
     subnet = {
       id = hcloud_network_subnet.subnet.id,
       ip_range = hcloud_network_subnet.subnet.ip_range,

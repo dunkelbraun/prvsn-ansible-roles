@@ -5,7 +5,6 @@ TerraformVerifier: &terraform_verifier
   backend: local
   controls:
     - "Terraform State"
-    - "Terraform Network"
     - "Terraform Grafana"
     - "Terraform Grafana Load Balancer"
   show_progress: true
