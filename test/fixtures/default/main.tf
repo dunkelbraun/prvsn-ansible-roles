@@ -1,5 +1,5 @@
 module "default" {
-  source                   = "../../../terraform/prvsn_hcloud_starter"
+  source                   = "../../../terraform/prvsn_hcloud_base"
   name                     = var.name
   network_zone             = var.network_zone
   network_cidr             = var.network_cidr
