@@ -35,30 +35,6 @@ output "private_network_server_data_volume" {
   value = module.private_network_server.private_network_server_data_volume
 }
 
-output "grafana_load_balancer" {
-  value = module.grafana_load_balancer.load_balancer
-}
-
-output "grafana_load_balancer_network" {
-  value = module.grafana_load_balancer.load_balancer_network
-}
-
-output "grafana_load_balancer_targets" {
-  value = module.grafana_load_balancer.load_balancer_targets
-}
-
-output "grafana_load_balancer_service" {
-  value = module.grafana_load_balancer.load_balancer_service
-}
-
-output "grafana_load_balancer_record" {
-  value = module.grafana_load_balancer.load_balancer_record
-}
-
-output "grafana_managed_cerfificate_domain_names" {
-  value = module.grafana_load_balancer.managed_cerfificate_domain_names
-}
-
-output "grafana_managed_cerfificate_id" {
-  value = module.grafana_load_balancer.managed_cerfificate_id
+output "grafana_url" {
+  value = module.grafana_load_balancer.load_balancer_url
 }

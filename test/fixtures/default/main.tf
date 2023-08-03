@@ -15,7 +15,7 @@ module "grafana_load_balancer" {
   subnet_id           = module.default.network.subnet.id
   domain              = "prvsn.dev"
   subdomain           = "grafana-${var.name}"
-  target_server_ids   = [module.default.grafana_server.id]
+  target_server_ids   = [tonumber(module.default.grafana_server.id)]
 }
 
 module "private_network_server" {

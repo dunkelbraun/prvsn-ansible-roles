@@ -37,5 +37,5 @@ variable "subdomain" {
 
 variable "target_server_ids" {
   description = "The ids of the servers to add as targets to the load balancer"
-  type        = list(string)
+  type        = list(number)
 }
