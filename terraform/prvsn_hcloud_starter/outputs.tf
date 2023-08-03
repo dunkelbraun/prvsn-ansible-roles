@@ -28,16 +28,7 @@ output "grafana_server" {
   value = {
     id = hcloud_server.grafana.id,
     name = hcloud_server.grafana.name,
-    network_id = tolist(hcloud_server.grafana.network)[0].network_id,
     private_ip = tolist(hcloud_server.grafana.network)[0].ip,
-    ipv4_address = tolist(hcloud_server.grafana.public_net)[0].ipv4,
-    ipv6_address = tolist(hcloud_server.grafana.public_net)[0].ipv6,
-    backups = hcloud_server.grafana.backups,
-    delete_protection = hcloud_server.grafana.delete_protection,
-    keep_disk = hcloud_server.grafana.keep_disk,
-    server_type = hcloud_server.grafana.server_type,
-    location = hcloud_server.grafana.location,
-    ssh_keys = hcloud_server.grafana.ssh_keys,
     labels = hcloud_server.grafana.labels,
   }
 }

@@ -76,7 +76,7 @@ check "nat_gateway" {
   assert {
     condition = hcloud_server.nat_gateway.keep_disk == false
     error_message = <<-MSG
-      Incorrect nat gateway name
+      Incorrect nat gateway keep_disk
         Expected: ${format("%#v", false)}
           Actual: ${format("%#v", hcloud_server.nat_gateway.keep_disk)}
     MSG
@@ -156,6 +156,24 @@ check "nat_gateway" {
           Actual: ${format("%#v", hcloud_server.nat_gateway.datacenter)}
     MSG
   }
+
+  assert {
+    condition = length(hcloud_server.nat_gateway.ssh_keys) == 1
+    error_message = <<-MSG
+      Incorrect grafana server ssh_keys length
+        Expected: ${format("%#v", 1)}
+          Actual: ${format("%#v", length(hcloud_server.nat_gateway.ssh_keys))}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_server.nat_gateway.ssh_keys[0] == var.ssh_key_id
+    error_message = <<-MSG
+      Incorrect granafa server ssh_key
+        Expected: ${format("%#v", var.ssh_key_id)}
+          Actual: ${format("%#v", hcloud_server.nat_gateway.ssh_keys[0])}
+    MSG
+  }
 }
 
 check "ssh_firewall" {
@@ -204,6 +222,128 @@ check "ssh_firewall" {
       Incorrect ssh firewall source_ips
         Expected: allowed ${format("%#v", ["0.0.0.0/0", "::/0"])}
           Actual: all values ${format("%#v", tolist(hcloud_firewall.ssh_traffic.rule)[0].source_ips)}
+    MSG
+  }
+}
+
+check "grafana_server" {
+  assert {
+    condition = hcloud_server.grafana.name == "grafana-${replace(lower(var.name), " ", "-")}"
+    error_message = <<-MSG
+      Incorrect grafana server name
+        Expected: ${format("%#v", "grafana-${replace(lower(var.name), " ", "-")}")}
+          Actual: ${format("%#v", hcloud_server.grafana.name)}
+    MSG
+  }
+
+  assert {
+    condition = tolist(hcloud_server.grafana.network)[0].network_id == tonumber(hcloud_network.network.id)
+    error_message = <<-MSG
+      Incorrect grafana server network_id
+        Expected: ${format("%#v", tonumber(hcloud_network.network.id))}
+          Actual: ${format("%#v", tolist(hcloud_server.grafana.network)[0].network_id)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_server.grafana.keep_disk == true
+    error_message = <<-MSG
+      Incorrect grafana keep_disk
+        Expected: ${format("%#v", true)}
+          Actual: ${format("%#v", hcloud_server.grafana.keep_disk)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_server.grafana.backups == false
+    error_message = <<-MSG
+      Incorrect grafana backups
+        Expected: ${format("%#v", false)}
+          Actual: ${format("%#v", hcloud_server.grafana.backups)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_server.grafana.delete_protection == false
+    error_message = <<-MSG
+      Incorrect grafan delete_protection
+        Expected: ${format("%#v", false)}
+          Actual: ${format("%#v", hcloud_server.grafana.delete_protection)}
+    MSG
+  }
+
+  assert {
+    condition = tolist(hcloud_server.grafana.public_net)[0].ipv4 == 0
+    error_message = <<-MSG
+      Incorrect grafana server ipv4
+        Expected: ${format("%#v", 0)}
+          Actual: ${format("%#v", tolist(hcloud_server.grafana.public_net)[0].ipv4)}
+    MSG
+  }
+
+  assert {
+    condition = tolist(hcloud_server.grafana.public_net)[0].ipv4_enabled == false
+    error_message = <<-MSG
+      Incorrect grafana server ipv4_enabled
+        Expected: ${format("%#v", false)}
+          Actual: ${format("%#v", tolist(hcloud_server.grafana.public_net)[0].ipv4_enabled)}
+    MSG
+  }
+
+  assert {
+    condition = tolist(hcloud_server.grafana.public_net)[0].ipv6 == 0
+    error_message = <<-MSG
+      Incorrect grafana server ipv6
+        Expected: ${format("%#v", 0)}
+          Actual: ${format("%#v", tolist(hcloud_server.grafana.public_net)[0].ipv6)}
+    MSG
+  }
+
+  assert {
+    condition = tolist(hcloud_server.grafana.public_net)[0].ipv6_enabled == false
+    error_message = <<-MSG
+      Incorrect grafana server ipv6_enabled
+        Expected: ${format("%#v", false)}
+          Actual: ${format("%#v", tolist(hcloud_server.grafana.public_net)[0].ipv6_enabled)}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_server.grafana.server_type == var.grafana_server_type
+    error_message = <<-MSG
+      Incorrect grafana server server_type
+        Expected: ${format("%#v", var.grafana_server_type)}
+          Actual: ${format("%#v", hcloud_server.grafana.server_type)}
+    MSG
+  }
+
+  assert {
+    condition = contains(
+      { "eu-central": ["nbg1", "hel1", "fsn1"], "us-east": ["ash"], "us-west": ["hil"] } [var.network_zone],
+      hcloud_server.grafana.location
+    )
+    error_message = <<-MSG
+      Incorrect grafana server location
+        Expected: (any) of ${format("%#v", { "eu-central": ["nbg1", "hel1", "fsn1"], "us-east": ["ash"], "us-west": ["hil"] } [var.network_zone])}
+          Actual: ${format("%#v", hcloud_server.grafana.location)}
+    MSG
+  }
+
+  assert {
+    condition = length(hcloud_server.grafana.ssh_keys) == 1
+    error_message = <<-MSG
+      Incorrect grafana server ssh_keys length
+        Expected: ${format("%#v", 1)}
+          Actual: ${format("%#v", length(hcloud_server.grafana.ssh_keys))}
+    MSG
+  }
+
+  assert {
+    condition = hcloud_server.grafana.ssh_keys[0] == var.ssh_key_id
+    error_message = <<-MSG
+      Incorrect granafa server ssh_key
+        Expected: ${format("%#v", var.ssh_key_id)}
+          Actual: ${format("%#v", hcloud_server.grafana.ssh_keys[0])}
     MSG
   }
 }
