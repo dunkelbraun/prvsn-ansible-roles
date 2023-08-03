@@ -1,7 +1,4 @@
-hetzner_network_name: us-east-test
 hetzner_network_ip_range: 10.2.0.0/16
-hetzner_network_zone: us-east
 hetzner_network_name_internal: us_east_test
 loki_server: "10.2.1.2"
-load_balancer_ip: "10.2.1.3"
 state_path: test/fixtures/default/terraform.tfstate.d/kitchen-terraform-default-hcloud-starter-us-east/terraform.tfstate
