@@ -3,7 +3,7 @@ resource "hcloud_server" "nat_gateway" {
 
   name        = local.nat_gateway_server_name
   server_type = var.nat_gateway_server_type
-  image       = data.hcloud_image.base_server_snapshot.id
+  image       = "ubuntu-22.04"
   ssh_keys    = [ var.ssh_key_id ]
 
   datacenter = random_shuffle.datacenter.result[0]
@@ -26,6 +26,7 @@ resource "hcloud_server" "nat_gateway" {
 
   user_data = templatefile("${path.module}/templates/nat_gateway_cloud_init.tftpl", {
     ip_range = hcloud_network_subnet.subnet.ip_range
+    loki_ip = local.grafana_private_ip
   })
 }
 

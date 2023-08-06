@@ -1,14 +1,9 @@
-control "Role Loki" do
+control "Loki" do
   title ""
 
-  describe service("loki") do
-    it { is_expected.to be_enabled }
-    it { is_expected.to be_running }
-  end
-
-  describe command("ufw status verbose") do
-    its(:stdout) { is_expected.to match(/Status: active/) }
-    its(:stdout) { should match(%r{3100/tcp\s+ALLOW IN\s+#{input('hetzner_network_ip_range')}}) }
-    its(:stdout) { should match(%r{9096/tcp\s+ALLOW IN\s+#{input('hetzner_network_ip_range')}}) }
+  describe docker_container(name: "prvsn-loki") do
+    its("image") { should eq "grafana/loki:2.8.0" }
+    its("status") { should cmp(/healthy/) }
+    its("ports") { should eq "0.0.0.0:3100->3100/tcp, :::3100->3100/tcp" }
   end
 end

@@ -14,9 +14,9 @@ NatGatewayVerifier: &nat_gateway_verifier
   user: root
   controls:
     - "Default Firewall"
-    - "Role Docker"
-    - "Role Node Exporter"
-    - "Role Promtail"
+    - "Docker"
+    - "Node Exporter"
+    - "Promtail"
   hosts_output: nat_gateway_ip_address
   show_progress: true
 
@@ -26,12 +26,12 @@ GrafanaVerifier: &grafana_verifier
   user: root
   controls:
     - "Default Firewall"
-    - "Role Docker"
-    - "Role Node Exporter"
-    - "Role Loki"
-    - "Role Promtail"
-    - "Role Grafana OSS"
-    - "Role Prometheus"
+    - "Docker"
+    - "Node Exporter"
+    - "Loki"
+    - "Promtail"
+    - "Grafana OSS"
+    - "Prometheus"
   bastion_host_output: nat_gateway_ip_address
   hosts_output: grafana_private_ip_address
   show_progress: true
@@ -42,9 +42,9 @@ PrivateNetworkServer: &private_network_server
   user: root
   controls:
     - "Default Firewall"
-    - "Role Docker"
-    - "Role Node Exporter"
-    - "Role Promtail"
+    - "Docker"
+    - "Node Exporter"
+    - "Promtail"
     - "Data Volume"
   bastion_host_output: nat_gateway_ip_address
   hosts_output: private_network_server_ip
@@ -69,126 +69,6 @@ AnsibleProvisioner: &ansible_provisioner
     OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"
 
 platforms:
-  - name: prvsn-internal-network-firewall
-    driver:
-      <<: *vagrant_driver
-    provisioner:
-      <<: *ansible_provisioner
-      extra_vars:
-        roles_to_include:
-          - prvsn_internal_network_firewall
-      playbook : "./test/test.yml"
-    verifier:
-      name: inspec
-      controls:
-        - "Default Firewall"
-
-  - name: prvsn-nat-gateway
-    driver:
-      <<: *vagrant_driver
-    provisioner:
-      <<: *ansible_provisioner
-      extra_vars:
-        roles_to_include:
-          - prvsn_nat_gateway
-      playbook : "./test/test.yml"
-    verifier:
-      name: inspec
-      controls:
-        - "Default Firewall"
-
-  - name: prvsn-docker
-    driver:
-      <<: *vagrant_driver
-    provisioner:
-      <<: *ansible_provisioner
-      extra_vars:
-        roles_to_include:
-          - prvsn_docker
-      playbook : "./test/test.yml"
-    verifier:
-      name: inspec
-      controls:
-        - "Role Docker"
-
-  - name: prvsn-node-exporter
-    driver:
-      <<: *vagrant_driver
-    provisioner:
-      <<: *ansible_provisioner
-      extra_vars:
-        roles_to_include:
-          - prvsn_internal_network_firewall
-          - prvsn_node_exporter
-      playbook : "./test/test.yml"
-    verifier:
-      name: inspec
-      controls:
-        - "Role Node Exporter"
-
-  - name: prvsn-promtail
-    driver:
-      <<: *vagrant_driver
-    provisioner:
-      <<: *ansible_provisioner
-      extra_vars:
-        roles_to_include:
-          - prvsn_docker
-          - prvsn_promtail
-        prvsn_promtail_loki_server: localhost
-      playbook : "./test/test.yml"
-    verifier:
-      name: inspec
-      controls:
-        - "Role Promtail"
-
-  - name: prvsn-loki
-    driver:
-      <<: *vagrant_driver
-    provisioner:
-      <<: *ansible_provisioner
-      extra_vars:
-        roles_to_include:
-          - prvsn_internal_network_firewall
-          - prvsn_loki
-      playbook : "./test/test.yml"
-    verifier:
-      name: inspec
-      controls:
-        - "Role Loki"
-
-  - name: prvsn-grafana-oss
-    driver:
-      <<: *vagrant_driver
-    provisioner:
-      <<: *ansible_provisioner
-      extra_vars:
-        roles_to_include:
-          - prvsn_internal_network_firewall
-          - prvsn_grafana_oss
-      playbook : "./test/test.yml"
-    verifier:
-      name: inspec
-      controls:
-        - "Role Grafana OSS"
-
-  - name: prvsn-prometheus
-    driver:
-      <<: *vagrant_driver
-    provisioner:
-      <<: *ansible_provisioner
-      extra_vars:
-        roles_to_include:
-          - prvsn_internal_network_firewall
-          - prvsn_prometheus
-        prvsn_prometheus_network_name: "a_network_name"
-        prvsn_prometheus_hcloud_read_token: "abcd"
-      playbook : "./test/test.yml"
-    verifier:
-      name: inspec
-      controls:
-        - "Role Prometheus"
-
   - name: hcloud-starter-eu-central
     provisioner:
       name: terraform

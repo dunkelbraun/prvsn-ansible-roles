@@ -1,7 +1,7 @@
 resource "hcloud_server" "grafana" {
   name        = local.grafana_server_name
   server_type = var.grafana_server_type
-  image       = data.hcloud_image.grafana_server_snapshot.id
+  image       = "ubuntu-22.04"
   ssh_keys    = [ var.ssh_key_id ]
 
   datacenter = random_shuffle.datacenter.result[0]
@@ -26,5 +26,7 @@ resource "hcloud_server" "grafana" {
 
   user_data = templatefile("${path.module}/templates/grafana_cloud_init.tftpl", {
     network_gateway = hcloud_network_subnet.subnet.gateway
+    hcloud_read_token = var.hcloud_read_token
+    hcloud_network_name = replace(replace(lower(var.name), " ", "_"), "-", "_")
   })
 }

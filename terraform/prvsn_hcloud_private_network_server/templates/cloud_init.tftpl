@@ -17,11 +17,38 @@ write_files:
                 - 185.12.64.2
                 - 185.12.64.1
 
+  - path: /opt/prvsn/compose.yaml
+    permissions: "0644"
+    content: |
+      version: "3"
+
+      services:
+        promtail:
+          extends:
+            file: /opt/prvsn-compose-services/promtail/compose.yaml
+            service: promtail
+          container_name: "prvsn-promtail"
+
+        node_exporter:
+          extends:
+            file: /opt/prvsn-compose-services/node_exporter/compose.yaml
+            service: node_exporter
+          container_name: "prvsn-node_exporter"
+
 runcmd:
   - netplan apply
   - echo "Attach volume"
   - while ! [ -e ${volume_linux_device} ]; do sleep 10; done # Wait until the volume is attached
   - '[ -z "$(blkid ${volume_linux_device})" ] && mkfs.ext4 ${volume_linux_device}' # Format volume if unformatted
   - mkdir -p /data # Create mount point
-  - echo "${volume_linux_device} /data ext4 discard,nofail,defaults 0 0" >> /etc/fstab # Mount device on reboot
-  - reboot
+  - mount -o discard,defaults ${volume_linux_device} /data # Mount device
+  - echo "${volume_linux_device} /data ext4 discard,nofail,defaults 0 0" >> /etc/fstab # Mount device on boot
+  - echo "${loki_ip} loki" >> /etc/hosts
+  - ufw allow 22/tcp
+  - ufw enable
+  - ufw reload
+  - curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+  - sh /tmp/get-docker.sh
+  - git clone https://github.com/dunkelbraun/prvsn-compose-services.git /opt/prvsn-compose-services
+  - cd /opt/prvsn
+  - docker compose up -d

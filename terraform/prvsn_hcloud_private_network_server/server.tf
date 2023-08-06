@@ -1,7 +1,7 @@
 resource "hcloud_server" "server" {
   name        = var.name
   server_type = local.hetzner_server_types[var.server_type]
-  image       = data.hcloud_image.base_server_snapshot.id
+  image       = "ubuntu-22.04"
   ssh_keys    = [ var.ssh_key_id ]
 
   location = local.location
@@ -24,6 +24,7 @@ resource "hcloud_server" "server" {
   user_data = templatefile("${path.module}/templates/cloud_init.tftpl", {
     network_gateway = var.network_gateway,
     volume_linux_device = hcloud_volume.data.linux_device
+    loki_ip = replace(var.network_gateway, ".0.1", ".1.2")
   })
 
   lifecycle {

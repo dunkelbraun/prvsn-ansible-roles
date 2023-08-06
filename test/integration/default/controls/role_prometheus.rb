@@ -1,88 +1,33 @@
 input("hetzner_network_name_internal", value: "a_network_name")
 input("hetzner_read_token", value: "abcd")
 
-control "Role Prometheus" do
+control "Prometheus" do
   title ""
 
-  describe service("prometheus") do
-    it { is_expected.to be_enabled }
-    it { is_expected.to be_running }
+  describe docker_container(name: "prvsn-prometheus") do
+    its("image") { should eq "prom/prometheus:v2.46.0" }
+    its("status") { should cmp(/healthy/) }
+    its("ports") { should eq "9090/tcp" }
   end
 
-  describe command("ufw status verbose") do
-    its(:stdout) { is_expected.to match(/Status: active/) }
-    its(:stdout) { should match(%r{9090/tcp\s+ALLOW IN\s+#{input('hetzner_network_ip_range')}}) }
+  describe(docker.containers.where { names == "prvsn-prometheus" }) do
+    its("status") { should cmp(/healthy/) }
   end
 
-  describe file("/etc/prometheus/prometheus.yml") do
-    its("content_as_yaml") do
-      should include(
-        {
-          "global" => {
-            "scrape_interval" => "15s", "evaluation_interval" => "15s"
-          },
-          "scrape_configs" => [
-            { "job_name" => "hetzner_service_discovery",
-              "hetzner_sd_configs" => [
-                {
-                  "role" => "hcloud",
-                  "bearer_token" => input("hetzner_read_token").to_s,
-                  "port" => 9100
-                }
-              ],
-              "relabel_configs" => [
-                {
-                  "source_labels" => ["__meta_hetzner_hcloud_private_ipv4_#{input("hetzner_network_name_internal")}"],
-                  "replacement" => "${1}:9100", "target_label" => "__address__"
-                },
-                {
-                  "source_labels" => ["__meta_hetzner_server_name"],
-                  "target_label" => "instance"
-                }
-              ] },
-            { "job_name" => "file_service_discovery",
-              "file_sd_configs" => [
-                "files" => ["targets/file_service_discoverer.yml"]
-              ] }
-          ]
-        }
-      )
-    end
+  describe docker_container(name: "prvsn-service_discovery") do
+    its("image") { should eq "ruby:3.2.2-slim" }
+    its("status") { should cmp(/healthy/) }
+
+    its("labels") { should include "ofelia.enabled=true" }
+    its("labels") { should include "ofelia.job-exec.file_sd_exporter.schedule=@every 2m" }
+    its("labels") { should include "ofelia.job-exec.file_sd_exporter.command=service_discovery" }
+
+    its("ports") { should be_empty }
   end
 
-  describe user("pfsd") do
-    it { should exist }
-    its("groups") { should eq %w[pfsd syslog prometheus] }
-  end
-
-  describe package("ruby") do
-    it { should be_installed }
-  end
-
-  describe file("/usr/local/bin/prometheus_discoverer") do
-    its("mode") { should cmp "0755" }
-    its("owner") { should eq "root" }
-    its("group") { should eq "root" }
-  end
-
-  describe crontab("pfsd") do
-    its("commands") do
-      should include "HCLOUD_READ_TOKEN=#{input("hetzner_read_token")} /usr/local/bin/prometheus_discoverer"
-    end
-  end
-
-  prometheus_discoverer_cmd = "HCLOUD_READ_TOKEN=#{input("hetzner_read_token")} /usr/local/bin/prometheus_discoverer"
-  describe crontab("pfsd").commands(prometheus_discoverer_cmd) do
-    its("minutes") { should cmp "*/2" }
-    its("hours") { should cmp "*" }
-    its("days") { should cmp "*" }
-    its("months") { should cmp "*" }
-    its("weekdays") { should cmp "*" }
-  end
-
-  describe directory("/etc/prometheus/targets") do
-    its("owner") { should eq "root" }
-    its("group") { should eq "prometheus" }
-    its("mode") { should cmp "0770" }
+  describe(docker_container(name: "prvsn-ofelia")) do
+    its("image") { should eq "mcuadros/ofelia:v0.3.7" }
+    its("status") { should cmp(/Up/) }
+    its("ports") { should be_empty }
   end
 end

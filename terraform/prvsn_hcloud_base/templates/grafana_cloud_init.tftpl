@@ -17,5 +17,97 @@ write_files:
                 - 185.12.64.2
                 - 185.12.64.1
 
+  - path: /opt/services/.env
+    permissions: "0644"
+    content: |
+      HCLOUD_READ_TOKEN=${hcloud_read_token}
+      HCLOUD_NETWORK_NAME=${hcloud_network_name}
+
+  - path: /opt/services/compose.yaml
+    permissions: "0644"
+    content: |
+      version: "3"
+
+      volumes:
+        grafana_data:
+        loki_data:
+        prometheus_data:
+        prometheus_targets:
+
+      networks:
+        monitoring:
+
+      services:
+        grafana:
+          extends:
+            file: /opt/prvsn-compose-services/grafana/compose.yaml
+            service: grafana
+          container_name: "prvsn-grafana"
+          volumes:
+            - grafana_data:/var/lib/grafana
+          networks:
+            - monitoring
+          depends_on:
+            prometheus:
+              condition: service_healthy
+            loki:
+              condition: service_healthy
+            node_exporter:
+              condition: service_healthy
+
+        promtail:
+          extends:
+            file: /opt/prvsn-compose-services/promtail/compose.yaml
+            service: promtail
+          container_name: "prvsn-promtail"
+          networks:
+            - monitoring
+          depends_on:
+            - loki
+
+        loki:
+          extends:
+            file: /opt/prvsn-compose-services/loki/compose.yaml
+            service: loki
+          container_name: "prvsn-loki"
+          networks:
+            - monitoring
+
+        prometheus:
+          extends:
+            file: /opt/prvsn-compose-services/prometheus/compose.yaml
+            service: prometheus
+          container_name: "prvsn-prometheus"
+          networks:
+            - monitoring
+
+        service_discovery:
+          extends:
+            file: /opt/prvsn-compose-services/prometheus/compose.yaml
+            service: service_discovery
+          container_name: "prvsn-service_discovery"
+
+        ofelia:
+          extends:
+            file: /opt/prvsn-compose-services/prometheus/compose.yaml
+            service: ofelia
+          container_name: "prvsn-ofelia"
+
+        node_exporter:
+          extends:
+            file: /opt/prvsn-compose-services/node_exporter/compose.yaml
+            service: node_exporter
+          container_name: "prvsn-node_exporter"
+          networks:
+            - monitoring
+
 runcmd:
   - netplan apply
+  - ufw allow 22/tcp
+  - ufw enable
+  - ufw reload
+  - curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
+  - sh /tmp/get-docker.sh
+  - git clone https://github.com/dunkelbraun/prvsn-compose-services.git /opt/prvsn-compose-services
+  - cd /opt/services
+  - docker compose up -d
