@@ -1,3 +1,8 @@
+resource "random_id" "subdomain" {
+  count = startswith(terraform.workspace, "kitchen-terraform") ? 1 : 0
+  byte_length = 4
+}
+
 locals {
   default_labels = {
     "created-by" = "prvsn"
@@ -12,7 +17,7 @@ locals {
 
   grafana_load_balancer = {
     grafana = {
-      subdomain       = "grafana"
+      subdomain       = startswith(terraform.workspace, "kitchen-terraform") ? random_id.subdomain[0].hex : "grafana"
       target_port     = 3000
       type            = "lb11"
       target_servers  = tolist([
