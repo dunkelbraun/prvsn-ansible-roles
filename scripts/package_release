@@ -1,0 +1,5 @@
+#!/bin/bash
+
+version="$1"
+
+tar --exclude=checks.tf --exclude=*.zip -czvf prvsn_hcloud_starter."$version".tar.gz ./services ./*.tftpl ./*.tf
