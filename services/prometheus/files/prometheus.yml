@@ -1,0 +1,30 @@
+---
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "node-exporter"
+    static_configs:
+      - targets: ["node-exporter:9100"]
+
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: hetzner_service_discovery
+    hetzner_sd_configs:
+      - role: "hcloud"
+        bearer_token: "__prometheus_hcloud_read_token__"
+        port: 9100
+    relabel_configs:
+    - source_labels: [__meta_hetzner_hcloud_private_ipv4___prometheus_network_name__]
+      replacement: "${1}:9100"
+      target_label: __address__
+    - source_labels: [__meta_hetzner_server_name]
+      target_label: instance
+
+  - job_name: "file_service_discovery"
+    file_sd_configs:
+    - files:
+      - "targets/file_service_discoverer.yml"

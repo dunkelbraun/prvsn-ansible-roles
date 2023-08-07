@@ -32,5 +32,12 @@ resource "hcloud_server" "grafana" {
     network_gateway = hcloud_network_subnet.subnet.gateway
     hcloud_read_token = var.hcloud_read_token
     hcloud_network_name = lower(hcloud_network.network.name)
+    zip_files = {
+      "grafana": filebase64(data.archive_file.compose_grafana.output_path)
+      "loki": filebase64(data.archive_file.compose_loki.output_path)
+      "node_exporter": filebase64(data.archive_file.compose_node_exporter.output_path)
+      "prometheus": filebase64(data.archive_file.compose_prometheus.output_path)
+      "promtail": filebase64(data.archive_file.compose_promtail.output_path)
+    }
   })
 }

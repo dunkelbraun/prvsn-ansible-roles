@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "Preparing Prometheus configuration..."
+
+cp /prometheus.yml /home/prometheus.yml
+sed -i "s/__prometheus_hcloud_read_token__/$HCLOUD_READ_TOKEN/g" /home/prometheus.yml
+sed -i "s/__prometheus_network_name__/$HCLOUD_NETWORK_NAME/g" /home/prometheus.yml
+
+cp /home/prometheus.yml /etc/prometheus/prometheus.yml
+
+echo "Done."

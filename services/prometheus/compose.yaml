@@ -1,0 +1,64 @@
+version: "3"
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.46.0
+    restart: unless-stopped
+    entrypoint: "run_prometheus"
+    volumes:
+      - ./scripts/prometheus:/usr/local/bin
+      - prometheus_targets:/etc/prometheus/targets
+      - ./files/prometheus.yml:/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--web.enable-lifecycle"
+    environment:
+      - HCLOUD_READ_TOKEN
+      - HCLOUD_NETWORK_NAME
+    healthcheck:
+      test: [
+        "CMD-SHELL", "wget -q --spider localhost:9090/-/healthy && echo 'healthy'",
+        "CMD-SHELL", "wget -q --spider localhost:9090/-/ready && echo 'ready'",
+        ]
+      start_period: 15s
+      interval: 2s
+      retries: 10
+    expose:
+      - 9090
+
+  service_discovery:
+    image: ruby:3.2.2-slim
+    restart: unless-stopped
+    command: setup_and_wait
+    environment:
+      - HCLOUD_READ_TOKEN
+    volumes:
+      - ./scripts/service_discovery:/usr/local/sbin
+      - prometheus_targets:/etc/prometheus/targets
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.file_sd_exporter.schedule: "@every 2m"
+      ofelia.job-exec.file_sd_exporter.command: "service_discovery"
+    healthcheck:
+      test: [ "CMD-SHELL", "which service_discovery && echo 'healthy'" ]
+      start_period: 15s
+      interval: 2s
+      retries: 10
+
+  ofelia:
+    image: mcuadros/ofelia:v0.3.7
+    restart: unless-stopped
+    depends_on:
+      service_discovery:
+        condition: service_healthy
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  prometheus_data:
+  prometheus_targets:

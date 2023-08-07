@@ -1,6 +1,13 @@
 #cloud-config
 
 write_files:
+%{ for archive_name, archive_data in zip_files ~}
+  - encoding: b64
+    content: ${archive_data}
+    path: /tmp/${archive_name}.zip
+    permissions: '0644'
+%{ endfor ~}
+
   - path: /opt/services/compose.yaml
     permissions: "0644"
     content: |
@@ -9,13 +16,13 @@ write_files:
       services:
         promtail:
           extends:
-            file: /opt/prvsn-compose-services/promtail/compose.yaml
+            file: /opt/services/promtail/compose.yaml
             service: promtail
           container_name: "prvsn-promtail"
 
         node_exporter:
           extends:
-            file: /opt/prvsn-compose-services/node_exporter/compose.yaml
+            file: /opt/services/node_exporter/compose.yaml
             service: node_exporter
           container_name: "prvsn-node_exporter"
 
@@ -29,6 +36,9 @@ runcmd:
   - ufw reload
   - curl -fsSL https://get.docker.com -o /tmp/get-docker.sh
   - sh /tmp/get-docker.sh
-  - git clone https://github.com/dunkelbraun/prvsn-compose-services.git /opt/prvsn-compose-services
+  - apt update -y && apt install -y unzip
+%{ for archive_name, archive_data in zip_files ~}
+  - unzip /tmp/${archive_name}.zip -d /opt/services/${archive_name}
+%{ endfor ~}
   - cd /opt/services
   - docker compose up -d

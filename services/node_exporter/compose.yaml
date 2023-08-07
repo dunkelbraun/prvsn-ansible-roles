@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  node_exporter:
+    image: prom/node-exporter:v1.6.1
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    ports:
+      - 9100:9100
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "rm -rf /home/metrics && \
+           wget -q localhost:9100/metrics -O /home/metrics && \
+           cat /home/metrics | grep node_load1 && \
+           echo 'ready'"
+      ]
+      start_period: 15s
+      interval: 2s
+      retries: 10

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+prometheus_exporter_hcloud_sd discover > /etc/prometheus/targets/file_service_discoverer.yml

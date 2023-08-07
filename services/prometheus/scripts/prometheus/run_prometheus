@@ -1,0 +1,5 @@
+#!/bin/sh
+
+setup_prometheus_config
+
+/bin/prometheus "$@"

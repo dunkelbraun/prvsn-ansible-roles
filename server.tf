@@ -41,6 +41,10 @@ resource "hcloud_server" "server" {
     network_gateway = hcloud_network_subnet.subnet.gateway,
     volume_linux_device = hcloud_volume.data[each.key].linux_device
     loki_ip = local.loki_ip
+    zip_files = {
+      "node_exporter": filebase64(data.archive_file.compose_node_exporter.output_path)
+      "promtail": filebase64(data.archive_file.compose_promtail.output_path)
+    }
   })
 
   lifecycle {

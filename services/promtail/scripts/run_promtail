@@ -1,0 +1,5 @@
+#!/bin/sh
+
+apt update -y && apt install -y curl
+
+/usr/bin/promtail "$@"

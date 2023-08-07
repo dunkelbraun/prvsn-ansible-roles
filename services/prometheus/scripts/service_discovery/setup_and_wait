@@ -1,0 +1,5 @@
+#!/bin/bash
+
+gem install prometheus_exporter_hcloud_sd
+
+sleep infinity

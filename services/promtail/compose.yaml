@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  promtail:
+    image: grafana/promtail:2.8.3
+    restart: unless-stopped
+    entrypoint: "run_promtail"
+    volumes:
+      - ./scripts:/usr/local/sbin
+      - ./files/config.yml:/etc/promtail/config.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/log:/var/host_log:ro
+    command: -config.file=/etc/promtail/config.yml
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:9080/ready && echo 'ready'"]
+      start_period: 20s
+      interval: 2s
+      retries: 10
