@@ -37,7 +37,7 @@ resource "hcloud_server" "server" {
     "subdomain" = local.target_servers_to_lb[each.key]
   }
 
-  user_data = templatefile("${path.module}/templates/server_cloud_init.tftpl", {
+  user_data = templatefile("${path.module}/cloud_init_server.tftpl", {
     network_gateway = hcloud_network_subnet.subnet.gateway,
     volume_linux_device = hcloud_volume.data[each.key].linux_device
     loki_ip = local.loki_ip

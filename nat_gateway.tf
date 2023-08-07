@@ -28,7 +28,7 @@ resource "hcloud_server" "nat_gateway" {
     "network" = hcloud_network.network.name
   }
 
-  user_data = templatefile("${path.module}/templates/nat_gateway_cloud_init.tftpl", {
+  user_data = templatefile("${path.module}/cloud_init_nat_gateway.tftpl", {
     ip_range = local.subnet_ip_range
     loki_ip = local.loki_ip
   })

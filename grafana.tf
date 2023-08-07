@@ -28,7 +28,7 @@ resource "hcloud_server" "grafana" {
     "subdomain" = local.grafana_load_balancer["grafana"].subdomain,
   })
 
-  user_data = templatefile("${path.module}/templates/grafana_cloud_init.tftpl", {
+  user_data = templatefile("${path.module}/cloud_init_grafana.tftpl", {
     network_gateway = hcloud_network_subnet.subnet.gateway
     hcloud_read_token = var.hcloud_read_token
     hcloud_network_name = lower(hcloud_network.network.name)
