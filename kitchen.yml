@@ -50,24 +50,6 @@ PrivateNetworkServer: &private_network_server
   hosts_output: private_network_server_ip
   show_progress: true
 
-VagrantDriver: &vagrant_driver
-  name: vagrant
-  box: bento/ubuntu-22.04-arm64
-  provider: vmware_desktop
-  network:
-    - ["private_network"]
-
-AnsibleProvisioner: &ansible_provisioner
-  name                : ansible_push
-  chef_bootstrap_url  : nil
-  host_key_checking   : false
-  idempotency_test    : true
-  fail_non_idempotent : true
-  environment_vars:
-    ANSIBLE_ROLES_PATH: "./roles"
-    ANSIBLE_CALLBACKS_ENABLED: "changes"
-    OBJC_DISABLE_INITIALIZE_FORK_SAFETY: "YES"
-
 platforms:
   - name: hcloud-starter-eu-central
     provisioner:
