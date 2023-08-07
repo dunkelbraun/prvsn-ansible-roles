@@ -1,11 +1,10 @@
 control "Terraform State" do
   title ""
+  json = JSON.parse(File.read(input("state_path")))
 
-  describe "terraform.tfstate check_results unique statuses" do
-    it {
-      json = JSON.parse(File.read(input("state_path")))
-      check_statuses = json["check_results"].map { |result| result["status"] }.uniq
-      expect(check_statuses).to eq ["pass"]
-    }
+  json["check_results"].each do |result|
+    describe result["config_addr"].split(".").last.to_s do
+      it { expect(result["status"]).to eq "pass" }
+    end
   end
 end

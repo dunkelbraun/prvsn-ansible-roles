@@ -1,10 +1,13 @@
 resource "hcloud_server" "nat_gateway" {
-  depends_on = [ hcloud_network_subnet.subnet ]
+  depends_on = [
+    hcloud_network.network,
+    hcloud_network_subnet.subnet
+  ]
 
-  name        = local.nat_gateway_server_name
-  server_type = var.nat_gateway_server_type
+  name        = "nat-${hcloud_network.network.id}"
+  server_type = "cx11"
   image       = "ubuntu-22.04"
-  ssh_keys    = [ var.ssh_key_id ]
+  ssh_keys    = [ data.hcloud_ssh_key.ssh_key.id ]
 
   datacenter = random_shuffle.datacenter.result[0]
 
@@ -12,21 +15,22 @@ resource "hcloud_server" "nat_gateway" {
 
   network {
     network_id = hcloud_network.network.id
-    ip         = local.nat_gateway_private_ip
+    ip         = local.nat_gateway_ip
   }
 
   firewall_ids = [
     hcloud_firewall.ssh_traffic.id
   ]
 
-  labels = merge(local.default_labels, {
+  labels = {
+    "created-by" = "prvsn"
     "role" = "nat"
     "network" = hcloud_network.network.name
-  })
+  }
 
   user_data = templatefile("${path.module}/templates/nat_gateway_cloud_init.tftpl", {
-    ip_range = hcloud_network_subnet.subnet.ip_range
-    loki_ip = local.grafana_private_ip
+    ip_range = local.subnet_ip_range
+    loki_ip = local.loki_ip
   })
 }
 
@@ -34,18 +38,4 @@ resource "hcloud_network_route" "nat_gateway_route" {
   network_id  = hcloud_network.network.id
   destination = "0.0.0.0/0"
   gateway     = tolist(hcloud_server.nat_gateway.network)[0].ip
-}
-
-resource "hcloud_firewall" "ssh_traffic" {
-  name = "ssh_traffic"
-
-  rule {
-    direction = "in"
-    protocol  = "tcp"
-    port      = "22"
-    source_ips = [
-      "0.0.0.0/0",
-      "::/0"
-    ]
-  }
 }

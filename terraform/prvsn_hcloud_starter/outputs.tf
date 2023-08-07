@@ -32,3 +32,13 @@ output "grafana_server" {
     labels = hcloud_server.grafana.labels,
   }
 }
+
+output "server_ips" {
+  description = "Server IPs"
+  value = {for key, server in hcloud_server.server: key => tolist(server.network)[0].ip }
+}
+
+output "grafana_url" {
+  description = "Grafana URL"
+  value = "https://${local.grafana_load_balancer["grafana"].subdomain}.${var.stack.domain}"
+}

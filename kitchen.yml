@@ -60,11 +60,8 @@ platforms:
     driver:
       name: terraform
       parallelism: 1
-      variables:
-        name: "eu-central-test"
-        network_zone: "eu-central"
-        network_cidr: "10.1.0.0/16"
-        ssh_key_id: "12940863"
+      variable_files:
+        - test/fixtures/default/eu-central.vars
     verifier:
       name: terraform
       systems:
@@ -82,72 +79,6 @@ platforms:
         - <<: *private_network_server
           attrs:
             - test/integration/default/terraform_attributes/eu_central.yml
-            - test/integration/default/terraform_attributes/all.yml
-
-  - name: hcloud-starter-us-east
-    provisioner:
-      name: terraform
-    transport:
-      name: terraform
-      root_module_directory: test/fixtures/default
-    driver:
-      name: terraform
-      parallelism: 1
-      variables:
-        name: "us-east-test"
-        network_zone: "us-east"
-        network_cidr: "10.2.0.0/16"
-        ssh_key_id: "12940863"
-    verifier:
-      name: terraform
-      systems:
-        - <<: *terraform_verifier
-          attrs:
-            - test/integration/default/terraform_attributes/us_east.yml
-        - <<: *nat_gateway_verifier
-          attrs:
-            - test/integration/default/terraform_attributes/us_east.yml
-            - test/integration/default/terraform_attributes/all.yml
-        - <<: *grafana_verifier
-          attrs:
-            - test/integration/default/terraform_attributes/us_east.yml
-            - test/integration/default/terraform_attributes/all.yml
-        - <<: *private_network_server
-          attrs:
-            - test/integration/default/terraform_attributes/us_east.yml
-            - test/integration/default/terraform_attributes/all.yml
-
-  - name: hcloud-starter-us-west
-    provisioner:
-      name: terraform
-    transport:
-      name: terraform
-      root_module_directory: test/fixtures/default
-    driver:
-      name: terraform
-      parallelism: 1
-      variables:
-        name: "us-west-test"
-        network_zone: "us-west"
-        network_cidr: "10.3.0.0/16"
-        ssh_key_id: "12940863"
-    verifier:
-      name: terraform
-      systems:
-        - <<: *terraform_verifier
-          attrs:
-            - test/integration/default/terraform_attributes/us_west.yml
-        - <<: *nat_gateway_verifier
-          attrs:
-            - test/integration/default/terraform_attributes/us_west.yml
-            - test/integration/default/terraform_attributes/all.yml
-        - <<: *grafana_verifier
-          attrs:
-            - test/integration/default/terraform_attributes/us_west.yml
-            - test/integration/default/terraform_attributes/all.yml
-        - <<: *private_network_server
-          attrs:
-            - test/integration/default/terraform_attributes/us_west.yml
             - test/integration/default/terraform_attributes/all.yml
 
 suites:

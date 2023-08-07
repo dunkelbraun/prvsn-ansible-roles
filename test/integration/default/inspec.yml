@@ -2,45 +2,15 @@ name: default
 title: PRVSN IAC
 version: 0.1.0
 attributes:
-  - name: network
-    type: hash
-    required: true
-  - name: nat_gateway
-    type: hash
-    required: true
   - name: nat_gateway_ip_address
     type: string
-    required: true
-  - name: grafana_server
-    type: hash
     required: true
   - name: grafana_server_ip_address
     type: string
     required: true
-  - name: load_balancer
-    type: hash
+  - name: grafana_url
+    type: string
     required: true
-  - name: load_balancer_network
-    type: hash
-    required: true
-  - name: load_balancer_target
-    type: hash
-    required: true
-  - name: grafana_managed_cerfificate_id
-    type: numeric
-    required: true
-  - name: grafana_managed_cerfificate_domain_names
-    type: array
-    required: true
-  - name: grafana_load_balancer_record
-    type: hash
-    required: true
-  - name: private_network_server
-    type: hash
-    required: true
-  - name: private_network_server_data_volume
-    type: hash
-    required: true
-  - name: ssh_traffic_firewall
-    type: hash
+  - name: private_network_server_ip
+    type: string
     required: true
