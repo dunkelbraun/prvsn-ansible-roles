@@ -108,6 +108,14 @@ write_files:
           networks:
             - monitoring
 
+        hcloud_load_balancer_exporter:
+          extends:
+            file: /opt/services/prometheus/compose.yaml
+            service: hcloud_load_balancer_exporter
+          container_name: "prvsn-hcloud_load_balancer_exporter"
+          networks:
+            - monitoring
+
 runcmd:
   - netplan apply
   - ufw allow 22/tcp

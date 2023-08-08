@@ -30,4 +30,10 @@ control "Prometheus" do
     its("status") { should cmp(/Up/) }
     its("ports") { should be_empty }
   end
+
+  describe(docker_container(name: "prvsn-hcloud_load_balancer_exporter")) do
+    its("image") { should eq "services-hcloud_load_balancer_exporter" }
+    its("status") { should cmp(/healthy/) }
+    its("ports") { should eq "8000/tcp" }
+  end
 end

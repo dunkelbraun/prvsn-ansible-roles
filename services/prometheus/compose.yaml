@@ -59,6 +59,24 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
+  hcloud_load_balancer_exporter:
+    build:
+      context: hcloud_load_balancer_exporter
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: hcloud_load_balancer_exporter
+    expose:
+      - 8000
+    environment:
+      LOAD_BALANCER_IDS: "all"
+      ACCESS_TOKEN: "${HCLOUD_READ_TOKEN}"
+      SCRAPE_INTERVAL: 30
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f localhost:8000 && echo 'ready'"]
+      start_period: 20s
+      interval: 2s
+      retries: 10
+
 volumes:
   prometheus_data:
   prometheus_targets:
