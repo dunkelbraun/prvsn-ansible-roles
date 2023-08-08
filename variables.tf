@@ -15,7 +15,7 @@ variable "stack" {
     servers = list(object({
       name             = string
       type             = string
-      data_volume_size = number
+      data_volume_size = optional(number)
     }))
 
     load_balancers = list(object({
@@ -74,7 +74,9 @@ variable "stack" {
   validation {
     condition = alltrue(
       [
-        for server in var.stack.servers : server.data_volume_size >= 10 && server.data_volume_size <= 1000
+        for server in var.stack.servers : (
+          server.data_volume_size == null ? true : server.data_volume_size >= 10 && server.data_volume_size <= 1000
+        )
       ]
     )
     error_message = "data_volume_size must be between 10 and 1000."

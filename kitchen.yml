@@ -50,6 +50,20 @@ PrivateNetworkServer: &private_network_server
   hosts_output: private_network_server_ip
   show_progress: true
 
+PrivateNetworkServerWithoutVolume: &private_network_server_without_data_volume
+  name: Private Network Server Without Volume
+  backend: ssh
+  user: root
+  controls:
+    - "Default Firewall"
+    - "Docker"
+    - "Node Exporter"
+    - "Promtail"
+    - "Without Data Volume"
+  bastion_host_output: nat_gateway_ip_address
+  hosts_output: private_network_server_witohut_volume_ip
+  show_progress: true
+
 platforms:
   - name: hcloud-starter-eu-central
     provisioner:
@@ -77,6 +91,10 @@ platforms:
             - test/integration/default/terraform_attributes/eu_central.yml
             - test/integration/default/terraform_attributes/all.yml
         - <<: *private_network_server
+          attrs:
+            - test/integration/default/terraform_attributes/eu_central.yml
+            - test/integration/default/terraform_attributes/all.yml
+        - <<: *private_network_server_without_data_volume
           attrs:
             - test/integration/default/terraform_attributes/eu_central.yml
             - test/integration/default/terraform_attributes/all.yml

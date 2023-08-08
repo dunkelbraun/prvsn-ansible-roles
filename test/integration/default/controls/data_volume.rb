@@ -15,8 +15,8 @@ control "Data Volume" do
   end
 
   describe filesystem("/data") do
-    its("size_kb") { should be >= 30_000_000 }
-    its("size_kb") { should be <= 31_000_000 }
+    its("size_kb") { should be >= 10_000_000 }
+    its("size_kb") { should be <= 11_000_000 }
     its("type") { should cmp "ext4" }
   end
 end

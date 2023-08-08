@@ -44,12 +44,14 @@ write_files:
 
 runcmd:
   - netplan apply
+%{ if volume_linux_device_available ~}
   - echo "Attach volume"
   - while ! [ -e ${volume_linux_device} ]; do sleep 10; done # Wait until the volume is attached
   - '[ -z "$(blkid ${volume_linux_device})" ] && mkfs.ext4 ${volume_linux_device}' # Format volume if unformatted
   - mkdir -p /data # Create mount point
   - mount -o discard,defaults ${volume_linux_device} /data # Mount device
   - echo "${volume_linux_device} /data ext4 discard,nofail,defaults 0 0" >> /etc/fstab # Mount device on boot
+%{ endif ~}
   - echo "${loki_ip} loki" >> /etc/hosts
   - ufw allow 22/tcp
   - ufw enable

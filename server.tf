@@ -31,15 +31,18 @@ resource "hcloud_server" "server" {
     network_id = hcloud_network.network.id
   }
 
-  labels = {
+
+  labels = merge({
     "created-by" = "prvsn-hcloud-starter",
-    "role" = "server",
-    "subdomain" = local.target_servers_to_lb[each.key]
-  }
+    "role" = "server"
+    },
+    contains(keys(local.target_servers_to_lb), each.key) ? { "subdomain" = local.target_servers_to_lb[each.key] } : {}
+  )
 
   user_data = templatefile("${path.module}/cloud_init_server.tftpl", {
     network_gateway = hcloud_network_subnet.subnet.gateway,
-    volume_linux_device = hcloud_volume.data[each.key].linux_device
+    volume_linux_device_available = contains(keys(hcloud_volume.data), each.key)
+    volume_linux_device = try(hcloud_volume.data[each.key].linux_device, null)
     loki_ip = local.loki_ip
     zip_files = {
       "node_exporter": filebase64(data.archive_file.compose_node_exporter.output_path)
@@ -62,10 +65,10 @@ resource "random_id" "volume" {
 }
 
 resource "hcloud_volume" "data" {
-  for_each = local.server_map
+  for_each = local.servers_with_volumes
 
-  name              = replace("${local.server_map[each.key]["name"]}-data-${random_id.volume.hex}", "/\\s+/", "")
-  size              = local.server_map[each.key]["data_volume_size"]
+  name              = replace("${local.servers_with_volumes[each.key]["name"]}-data-${random_id.volume.hex}", "/\\s+/", "")
+  size              = local.servers_with_volumes[each.key]["data_volume_size"]
   location          = random_shuffle.location.result[0]
   format            = "ext4"
   delete_protection = false
@@ -78,7 +81,7 @@ resource "hcloud_volume" "data" {
 }
 
 resource "hcloud_volume_attachment" "main" {
-  for_each = local.server_map
+  for_each = local.servers_with_volumes
 
   volume_id = hcloud_volume.data[each.key].id
   server_id = hcloud_server.server[each.key].id

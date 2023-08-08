@@ -13,3 +13,7 @@ output "grafana_url" {
 output "private_network_server_ip" {
   value = module.default.server_ips["web-1"]
 }
+
+output "private_network_server_witohut_volume_ip" {
+  value = module.default.server_ips["web-2"]
+}

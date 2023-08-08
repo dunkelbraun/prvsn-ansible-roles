@@ -15,6 +15,8 @@ locals {
 
   server_map = { for server in var.stack.servers : server.name => server }
 
+  servers_with_volumes = { for server in var.stack.servers : server.name => server if server.data_volume_size != null }
+
   grafana_load_balancer = {
     grafana = {
       subdomain       = startswith(terraform.workspace, "kitchen-terraform") ? random_id.subdomain[0].hex : "grafana"

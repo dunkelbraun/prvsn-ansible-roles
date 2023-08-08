@@ -12,7 +12,7 @@ variable "stack" {
     servers = list(object({
       name             = string
       type             = string
-      data_volume_size = number
+      data_volume_size = optional(number)
     }))
     load_balancers = list(object({
       type                = string
