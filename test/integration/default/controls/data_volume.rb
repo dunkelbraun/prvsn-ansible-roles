@@ -1,5 +1,3 @@
-input("loki_server", value: "localhost")
-
 control "Data Volume" do
   title ""
 
