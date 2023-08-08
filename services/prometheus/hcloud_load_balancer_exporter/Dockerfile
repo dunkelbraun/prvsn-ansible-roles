@@ -1,19 +1,15 @@
 FROM python:3.8-slim
 
-RUN apt update -y && apt install -y git curl
+RUN apt update -y && apt install -y curl
 
-RUN git clone \
-      --branch v1.3.1 \
-      --single-branch \
-      --depth 1 \
-      https://github.com/wacken89/hetzner-load-balancer-prometheus-exporter.git \
-      /tmp/hetzner-load-balancer-prometheus-exporter
-
-RUN cp -r /tmp/hetzner-load-balancer-prometheus-exporter/code /opt/hetzner-load-balancer-prometheus-exporter
-
-RUN pip install --no-cache-dir -r /opt/hetzner-load-balancer-prometheus-exporter/requirements.txt
+RUN mkdir -p /opt/hetzner-load-balancer-prometheus-exporter
 
 WORKDIR /opt/hetzner-load-balancer-prometheus-exporter
+
+COPY exporter.py .
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 ENV PYTHONPATH '/opt/hetzner-load-balancer-prometheus-exporter/'
 
