@@ -73,7 +73,6 @@ platforms:
       root_module_directory: test/fixtures/default
     driver:
       name: terraform
-      parallelism: 1
       variable_files:
         - test/fixtures/default/eu-central.vars
     verifier:
