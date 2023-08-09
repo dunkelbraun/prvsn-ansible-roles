@@ -17,6 +17,10 @@ scrape_configs:
     - source_labels: [__meta_hetzner_hcloud_private_ipv4___prometheus_network_name__]
       replacement: "${1}:9100"
       target_label: __address__
+    - source_labels: [__meta_hetzner_hcloud_label_role]
+      regex: "grafana"
+      replacement: "node_exporter:9100"
+      target_label: __address__
     - source_labels: [__meta_hetzner_server_name]
       target_label: instance
 
