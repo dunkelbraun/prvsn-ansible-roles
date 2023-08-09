@@ -73,8 +73,9 @@ platforms:
       root_module_directory: test/fixtures/default
     driver:
       name: terraform
-      variable_files:
-        - test/fixtures/default/eu-central.vars
+      variables:
+        www_subdomain: <%= ENV["KITCHEN_TF_WWW_SUBDOMAIN"] %>
+        hcloud_read_token: <%= ENV["HCLOUD_READ_TOKEN"] %>
     verifier:
       name: terraform
       systems:
