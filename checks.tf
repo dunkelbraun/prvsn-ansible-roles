@@ -616,7 +616,6 @@ check "load_balancer_count" {
         for key, lb in hcloud_load_balancer.load_balancer : local.all_load_balancers[key] != null
       ]
     )
-    # condition = hcloud_load_balancer.load_balancer.name == "${var.subdomain}-${var.domain}-lb"
     error_message = <<-MSG
       Incorrect load balancer
         Expected: ${format("%#v", [ for key, lb in local.all_load_balancers : key ])}
