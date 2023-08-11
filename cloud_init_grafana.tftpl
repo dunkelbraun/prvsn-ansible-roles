@@ -29,6 +29,7 @@ write_files:
     content: |
       HCLOUD_READ_TOKEN=${hcloud_read_token}
       HCLOUD_NETWORK_NAME=${hcloud_network_name}
+      HCLOUD_HOSTNAME=${hostname}
 
   - path: /opt/services/compose.yaml
     permissions: "0644"

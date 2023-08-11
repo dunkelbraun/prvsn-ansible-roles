@@ -24,6 +24,11 @@ write_files:
     permissions: '0644'
 %{ endfor ~}
 
+  - path: /opt/services/.env
+    permissions: "0644"
+    content: |
+      HCLOUD_HOSTNAME=${hostname}
+
   - path: /opt/services/compose.yaml
     permissions: "0644"
     content: |
