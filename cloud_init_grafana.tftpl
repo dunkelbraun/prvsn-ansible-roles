@@ -88,18 +88,6 @@ write_files:
           networks:
             - monitoring
 
-        service_discovery:
-          extends:
-            file: /opt/services/prometheus/compose.yaml
-            service: service_discovery
-          container_name: "prvsn-service_discovery"
-
-        ofelia:
-          extends:
-            file: /opt/services/prometheus/compose.yaml
-            service: ofelia
-          container_name: "prvsn-ofelia"
-
         node_exporter:
           extends:
             file: /opt/services/node_exporter/compose.yaml

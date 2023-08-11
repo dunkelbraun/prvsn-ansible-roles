@@ -24,11 +24,6 @@ scrape_configs:
     - source_labels: [__meta_hetzner_server_name]
       target_label: instance
 
-  - job_name: "file_service_discovery"
-    file_sd_configs:
-    - files:
-      - "targets/file_service_discoverer.yml"
-
   - job_name: "hcloud_load_balancer_exporter"
     static_configs:
       - targets: ["hcloud_load_balancer_exporter:8000"]
