@@ -32,6 +32,7 @@ resource "hcloud_server" "grafana" {
     network_gateway = hcloud_network_subnet.subnet.gateway
     hcloud_read_token = var.hcloud_read_token
     hcloud_network_name = lower(hcloud_network.network.name)
+    hostname = local.grafana_server_name
     zip_files = {
       "grafana": filebase64(data.archive_file.compose_grafana.output_path)
       "loki": filebase64(data.archive_file.compose_loki.output_path)

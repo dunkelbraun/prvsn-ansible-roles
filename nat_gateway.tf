@@ -31,6 +31,7 @@ resource "hcloud_server" "nat_gateway" {
   user_data = templatefile("${path.module}/cloud_init_nat_gateway.tftpl", {
     ip_range = local.subnet_ip_range
     loki_ip = local.loki_ip
+    hostname = "nat-${hcloud_network.network.id}"
     zip_files = {
       "node_exporter": filebase64(data.archive_file.compose_node_exporter.output_path)
       "promtail": filebase64(data.archive_file.compose_promtail.output_path)
