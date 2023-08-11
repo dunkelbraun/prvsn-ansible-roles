@@ -10,6 +10,7 @@ datasources:
     basicAuth: false
     isDefault: false
     editable: false
+    uid: 3c8a6fc9-f46a-441c-88b7-98201f5e3ba2
 
   - name: Loki
     type: loki
@@ -20,3 +21,4 @@ datasources:
     isDefault: false
     version: 1
     editable: false
+    uid: 0283bfaf-caae-4a6b-9daf-761911454d55
