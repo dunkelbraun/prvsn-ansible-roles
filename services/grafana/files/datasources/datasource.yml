@@ -8,8 +8,8 @@ datasources:
     orgId: 1
     url: http://prometheus:9090
     basicAuth: false
-    editable: true
     isDefault: false
+    editable: false
 
   - name: Loki
     type: loki
