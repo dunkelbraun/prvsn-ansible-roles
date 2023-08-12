@@ -135,7 +135,10 @@
       "type": "state-timeline"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "type": "prometheus",
+        "uid": "3c8a6fc9-f46a-441c-88b7-98201f5e3ba2"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -217,7 +220,8 @@
       "targets": [
         {
           "datasource": {
-            "uid": "$datasource"
+            "type": "prometheus",
+            "uid": "3c8a6fc9-f46a-441c-88b7-98201f5e3ba2"
           },
           "editorMode": "code",
           "expr": "hetzner_load_balancer_open_connections{hetzner_load_balancer_name=\"$loadbalancer\"}",
