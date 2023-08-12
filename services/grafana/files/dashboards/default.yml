@@ -1,0 +1,17 @@
+apiVersion: 1
+providers:
+  - name: Metrics
+    folder: Metrics
+    type: file
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/metrics
+
+  - name: Logs
+    folder: Logs
+    type: file
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/logs

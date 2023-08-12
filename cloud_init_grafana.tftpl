@@ -116,5 +116,9 @@ runcmd:
 %{ for archive_name, archive_data in zip_files ~}
   - unzip /tmp/${archive_name}.zip -d /opt/services/${archive_name}
 %{ endfor ~}
+  - cd /tmp
+  - git clone  --branch main --single-branch --depth=1 https://github.com/dunkelbraun/prvsn-hcloud-starter.git
+  - cp -r prvsn-hcloud-starter/grafana_dashboards/* /opt/services/grafana/files/dashboards
+  - rm -rf prvsn-hcloud-starter
   - cd /opt/services
   - docker compose up -d
